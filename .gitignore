@@ -142,3 +142,6 @@ test.cpp
 /**/*.o
 /**/*.so
 Nibbler
+.idea/
+client
+server

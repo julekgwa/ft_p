@@ -70,7 +70,7 @@ else
     { 
         sz++;
         gotoxy(0,4);
-        printf("Received: %llf Mb",(sz/1024));
+        printf("Received: %Lf Mb",(sz/1024));
 	fflush(stdout);
         // recvBuff[n] = 0;
         fwrite(recvBuff, 1,bytesReceived,fp);

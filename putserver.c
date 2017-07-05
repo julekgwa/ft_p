@@ -12,7 +12,7 @@
 struct sockaddr_in c_addr;
 char fname[100];
 
-void* SendFileToClient(int *arg)
+void SendFileToClient(int *arg)
 {
       int connfd=(int)*arg;
       printf("Connection accepted and id: %d\n",connfd);
@@ -23,7 +23,7 @@ void* SendFileToClient(int *arg)
         if(fp==NULL)
         {
             printf("File opern error");
-            return 1;   
+            return ;   
         }   
 
         /* Read data from file and send it */

@@ -5,10 +5,10 @@ LIBFLAG = -Wall -Wextra -Werror
 all: client server
 
 client:
-	@gcc -o $(CLIENT) client.c
+	@gcc $(LIBFLAG) -o $(CLIENT) client.c
 
 server:
-	@gcc -o $(SERVER) server.c
+	@gcc $(LIBFLAG) -o $(SERVER) server.c
 
 clean: clean
 		@/bin/rm -f $(SERVER)

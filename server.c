@@ -49,7 +49,7 @@ int main(int ac, char **av) {
     listen(sock_fd, 5);
     client_len = sizeof(client);
     while (42) {
-        new_socket_fd = accept(sock_fd, (struct sockaddr *) &client, &client_len);
+        new_socket_fd = accept(sock_fd, (struct sockaddr *) &client, (socklen_t*)&client_len);
         if (new_socket_fd < 0) {
             printf("Error while accepting connection");
             break;

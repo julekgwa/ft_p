@@ -1,19 +1,33 @@
 SERVER = server
+
 CLIENT = client
+
 LIBFLAG = -Wall -Wextra -Werror
 
+SRCSERVER = server.c
+
+SRCCLIENT = client.c
+
+OBJSERVER = $(SRCSERVER: .c=.o)
+
+OBJCLIENT = $(SRCCLIENT: .c=.o)
+
 all: client server
-    @whoami > author
+	@whoami > author
 
 client:
-	@gcc $(LIBFLAG) -o $(CLIENT) client.c
+	@gcc $(LIBFLAG) -c $(SRCCLIENT)
+	@gcc $(LIBFLAG) -o $(CLIENT) $(OBJCLIENT)
 
 server:
-	@gcc $(LIBFLAG) -o $(SERVER) server.c
+	@gcc $(LIBFLAG) -c $(SRCSERVER)
+	@gcc $(LIBFLAG) -o $(SERVER) $(OBJSERVER)
 
-clean: clean
-		@/bin/rm -f $(SERVER)
-		@/bin/rm -f $(CLIENT)
-		@echo "\x1B[32mCleaned up compiled files.\x1B[0m"
+clean:
+	@rm -rf $(OBJSERVER) $(OBJCLIENT)
+	@echo "\x1B[32mCleaned up compiled files.\x1B[0m"
+fclean: clean
+	@/bin/rm -f $(SERVER)
+	@/bin/rm -f $(CLIENT)
 
 re: clean	all

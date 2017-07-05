@@ -3,6 +3,7 @@ CLIENT = client
 LIBFLAG = -Wall -Wextra -Werror
 
 all: client server
+    @whoami > author
 
 client:
 	@gcc $(LIBFLAG) -o $(CLIENT) client.c

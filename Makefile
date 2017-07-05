@@ -8,9 +8,9 @@ SRCSERVER = server.c
 
 SRCCLIENT = client.c
 
-OBJSERVER = $(SRCSERVER: .c=.o)
+OBJSERVER = $(SRCSERVER:.c=.o)
 
-OBJCLIENT = $(SRCCLIENT: .c=.o)
+OBJCLIENT = $(SRCCLIENT:.c=.o)
 
 all: client server
 	@whoami > author

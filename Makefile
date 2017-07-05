@@ -18,10 +18,12 @@ all: client server
 client:
 	@gcc $(LIBFLAG) -c $(SRCCLIENT)
 	@gcc $(LIBFLAG) -o $(CLIENT) $(OBJCLIENT)
+	@echo "\x1B[32mCompiled client files.\x1B[0m"
 
 server:
 	@gcc $(LIBFLAG) -c $(SRCSERVER)
 	@gcc $(LIBFLAG) -o $(SERVER) $(OBJSERVER)
+	@echo "\x1B[32mCompiled server files.\x1B[0m"
 
 clean:
 	@rm -rf $(OBJSERVER) $(OBJCLIENT)

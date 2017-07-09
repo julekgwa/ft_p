@@ -1,67 +1,103 @@
 //
-// Created by julekgwa on 2017/07/04.
+// Created by julekgwa on 2017/07/08.
 //
 
-
-#include <sys/types.h>
 #include <stdio.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <stdlib.h>
-#include <memory.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <string.h>
+#include <netinet/in.h>
+#include <errno.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <unistd.h>
+#include <sys/wait.h>
+
+#define ERROR -1
+#define MAX_DATA 1024
+
+void test() {
+    char *args[2];
+
+    args[0] = "/bin/ls";
+    args[1] = NULL;
+    if (execv(args[0], args) < -1)
+        perror("execv");
+}
+
+void test2() {
+    char *args[2];
+
+    args[0] = "/bin/pwd";
+    args[1] = NULL;
+    if (execv(args[0], args) < ERROR)
+        perror("execv");
+}
 
 int main(int ac, char **av) {
-    int sock_fd;
-    int new_socket_fd;
-    int port_number;
-    ssize_t rval;
-    int client_len;
-    struct sockaddr_in server;
-    struct sockaddr_in client;
-    char buff[1024];
+    int socket_fd, len, client_fd;
+    ssize_t data_len;
+    struct sockaddr_in server, client;
+    pid_t pid;
+    int stdout_copy = dup(1);
+    char data[MAX_DATA];
 
-    if (ac < 2)
-    {
-        printf("Please provide port number\n");
-        return (-1);
+    if (ac < 2 || ac > 2) {
+        printf("Usage: %s <Port number>\n", av[0]);
+        exit(1);
     }
-    sock_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock_fd < 0)
-    {
-        printf("There was an error while creating socket");
-        return (-1);
+    //    socket
+    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR) {
+        perror("socket: ");
+        exit(-1);
     }
-
-    //TODO remove atoi with ft_atoi
-
-    port_number = atoi(av[1]);
 
     server.sin_family = AF_INET;
+    server.sin_port = htons(atoi(av[1]));
     server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons(port_number);
+    bzero(&server.sin_zero, 8);
 
-    if (bind(sock_fd, (struct sockaddr *) &server, sizeof(server)) < 0) {
-        printf("Error while binding");
-        return (-1);
+    //    bind
+    len = sizeof(struct sockaddr_in);
+
+    if ((bind(socket_fd, (struct sockaddr *) &server, len)) == ERROR) {
+        perror("Bind");
+        exit(-1);
     }
 
-    listen(sock_fd, 5);
-    client_len = sizeof(client);
+    //    listen
+    listen(socket_fd, 5);
+    int status;
     while (42) {
-        new_socket_fd = accept(sock_fd, (struct sockaddr *) &client, (struct socklen_t *) &client_len);
-        if (new_socket_fd < 0) {
-            printf("Error while accepting connection");
-            break;
+        //    accept
+        if ((client_fd = accept(socket_fd, (struct sockaddr *) &client, (socklen_t *) &len)) == ERROR) {
+            perror("accept");
+            exit(-1);
         }
-        memset(buff, 0, sizeof(buff));
-        if ((rval = recv(new_socket_fd, buff, sizeof(buff), 0)) < 0)
-            printf("error reading stream\n");
-        else if (rval == 0)
-            printf("Ending connection\n");
-        else
-            printf("message: %s\n", buff);
-        close(new_socket_fd);
+        printf("New client connected from port no %d and IP %s\n", ntohs(client.sin_port), inet_ntoa(client.sin_addr));
+        close(1);
+        data_len = 1;
+        dup2(client_fd, 1);
+        while (data_len) {
+            data_len = recv(client_fd, data, MAX_DATA - 1, 0);
+            if (data_len) {
+                data[data_len] = '\0';
+                pid = fork();
+                if (pid == 0) {
+                    printf("Sent msg: %s", data);
+                    if (strncmp(data, "ls", strlen(data)) == 0) {
+                        test();
+                    } else
+                        test2();
+                }
+                wait(&status);
+            }
+        }
+        close(client_fd);
+        dup2(stdout_copy, 1);
+        printf("Client disconnected\n");
+        dup2(stdout_copy, 1);
     }
-    return (0);
+    return 0;
 }

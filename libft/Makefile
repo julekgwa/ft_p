@@ -29,7 +29,21 @@ SRC = ./src/ft_memset.c ./src/ft_bzero.c ./src/ft_memcpy.c ./src/ft_memccpy.c ./
       ./src/ft_putnstr.c ./src/ft_num_digits.c ./src/ft_manage_c.c ./src/ft_find_width.c \
       ./src/ft_handle_s.c ./src/ft_strhex.c ./src/ft_putwchar_t.c ./src/ft_handle_prec.c \
       ./src/ft_manage_width.c ./src/ft_realloc.c ./src/get_next_line.c ./src/ft_getchar.c \
-      ./src/ft_lstsize.c
+      ./src/ft_lstsize.c ./src/util.c ./src/commands/ft_commands.c ./src/utils/ft_ctrl_c_signal_handler.c \
+      ./src/commands/ft_cd.c ./src/commands/ft_echo.c ./src/env/ft_env.c \
+      ./src/utils/ft_utils.c ./src/exec/ft_get_data.c ./src/history/ft_history.c \
+      ./src/utils/ft_more_utils.c ./src/keyboard/ft_ctrl_keyboard.c ./src/signals/ft_signals.c\
+      ./src/keyboard/ft_ctrl_terminal.c ./src/keyboard/ft_term_utils.c ./src/pipe/ft_manage_pipes.c \
+      ./src/buffer/ft_manage_buff.c ./src/history/ft_hist_utils.c ./src/memory/ft_free.c \
+      ./src/utils/ft_cmd_utils.c ./src/env/ft_env_utils.c ./src/redirection/ft_redirection.c \
+      ./src/redirection/ft_redirection_utils.c ./src/redirection/ft_here_doc.c \
+      ./src/parenthesis/ft_parenthesis.c ./src/parenthesis/ft_parenthesis_utils.c \
+      ./src/redirection/ft_here_doc_utils.c ./src/env/ft_export.c ./src/logical/ft_logical_op.c \
+      ./src/history/ft_bck_i_search.c ./src/history/ft_manage_hist.c ./src/copy/ft_cut.c \
+      ./src/auto/ft_auto_search.c ./src/auto/ft_auto_utils.c ./src/auto/ft_auto_misc.c \
+      ./src/hash_table/ft_hash_table.c ./src/hash_table/ft_hash_table_utils.c \
+      ./src/exec/ft_execute.c ./src/substitution/ft_sub.c ./src/auto/ft_format.c \
+      ./src/pipe/ft_pipes_utils.c
 OBJECT = ft_memset.o ft_bzero.o ft_memcpy.o ft_memccpy.o ft_memmove.o \
       ft_memchr.o ft_memcmp.o ft_strlen.o ft_strnstr.o \
       ft_strdup.o ft_strcpy.o ft_strncpy.o ft_strcat.o ft_strncat.o \
@@ -47,12 +61,21 @@ OBJECT = ft_memset.o ft_bzero.o ft_memcpy.o ft_memccpy.o ft_memmove.o \
       ft_neg_to_pos.o ft_str_contains.o ft_strhex_lower.o ft_base.o \
       ft_putnstr.o ft_num_digits.o ft_manage_c.o ft_find_width.o \
       ft_handle_s.o ft_strhex.o ft_putwchar_t.o ft_handle_prec.o \
-      ft_manage_width.o ft_realloc.o get_next_line.o ft_getchar.o ft_lstsize.o
+      ft_manage_width.o ft_realloc.o get_next_line.o ft_getchar.o ft_lstsize.o \
+      util.o ft_commands.o ft_ctrl_c_signal_handler.o ft_cd.o ft_echo.o \
+      ft_env.o ft_utils.o ft_get_data.o ft_more_utils.o ft_ctrl_terminal.o \
+      ft_term_utils.o ft_ctrl_keyboard.o ft_manage_pipes.o ft_manage_buff.o \
+      ft_history.o ft_signals.o ft_hist_utils.o ft_free.o ft_cmd_utils.o ft_env_utils.o \
+      ft_redirection.o ft_redirection_utils.o ft_here_doc.o ft_parenthesis.o \
+      ft_parenthesis_utils.o ft_here_doc_utils.o ft_export.o ft_logical_op.o \
+      ft_bck_i_search.o ft_manage_hist.o ft_cut.o ft_auto_search.o ft_auto_utils.o \
+      ft_auto_misc.o ft_hash_table.o ft_hash_table_utils.o ft_execute.o ft_sub.o \
+      ft_format.o ft_pipes_utils.o
 FLAGS = -Wall -Wextra -Werror
 OPTIONS = -c -I ./includes/
 
 all: $(NAME)
-	
+
 $(NAME):
 	@gcc $(FLAGS) $(OPTIONS) $(SRC)
 	@ar rc $(NAME) $(OBJECT)

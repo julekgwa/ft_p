@@ -4,6 +4,8 @@ CLIENT = client
 
 LIBFLAG = -Wall -Wextra -Werror
 
+OPTIONS = -c -I libft/includes/ -I includes/
+
 SRCSERVER = server.c
 
 SRCCLIENT = client.c
@@ -16,8 +18,8 @@ all: client server
 	@whoami > author
 
 client:
-	@gcc $(LIBFLAG) -c $(SRCCLIENT)
-	@gcc $(LIBFLAG) -o $(CLIENT) $(OBJCLIENT)
+	@gcc $(LIBFLAG) $(OPTIONS) $(SRCCLIENT)
+	@gcc $(LIBFLAG) -o $(CLIENT) $(OBJCLIENT) -L libft/ -lft
 	@echo "\x1B[32mCompiled client files.\x1B[0m"
 
 server:

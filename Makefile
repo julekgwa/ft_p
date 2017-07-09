@@ -23,8 +23,8 @@ client:
 	@echo "\x1B[32mCompiled client files.\x1B[0m"
 
 server:
-	@gcc $(LIBFLAG) -c $(SRCSERVER)
-	@gcc $(LIBFLAG) -o $(SERVER) $(OBJSERVER)
+	@gcc $(LIBFLAG) $(OPTIONS) $(SRCSERVER)
+	@gcc $(LIBFLAG) -o $(SERVER) $(OBJSERVER) -L libft/ -lft -ltermcap
 	@echo "\x1B[32mCompiled server files.\x1B[0m"
 
 lib:

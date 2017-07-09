@@ -2,6 +2,7 @@
 // Created by julekgwa on 2017/07/08.
 //
 
+#include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -35,7 +36,14 @@ void test2() {
         perror("execv");
 }
 
-int main(int ac, char **av) {
+void handle_client(char *data) {
+    if (strncmp(data, "ls", strlen(data)) == 0) {
+        test();
+    } else
+        test2();
+}
+
+int main(int ac, char **av, char **envp) {
     int socket_fd, len, client_fd;
     ssize_t data_len;
     struct sockaddr_in server, client;
@@ -47,6 +55,7 @@ int main(int ac, char **av) {
         printf("Usage: %s <Port number>\n", av[0]);
         exit(1);
     }
+
     //    socket
     if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR) {
         perror("socket: ");
@@ -85,11 +94,7 @@ int main(int ac, char **av) {
                 data[data_len] = '\0';
                 pid = fork();
                 if (pid == 0) {
-                    printf("Sent msg: %s", data);
-                    if (strncmp(data, "ls", strlen(data)) == 0) {
-                        test();
-                    } else
-                        test2();
+                    handle_client(data);
                 }
                 wait(&status);
             }

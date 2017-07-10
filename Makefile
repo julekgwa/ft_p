@@ -4,6 +4,8 @@ CLIENT = client
 
 LIBFLAG = -Wall -Wextra -Werror
 
+OPTIONS = -c -I libft/includes/
+
 SRCSERVER = server.c
 
 SRCCLIENT = client.c
@@ -12,23 +14,28 @@ OBJSERVER = $(SRCSERVER:.c=.o)
 
 OBJCLIENT = $(SRCCLIENT:.c=.o)
 
-all: client server
+all: lib client server
 	@whoami > author
 
 client:
-	@gcc $(LIBFLAG) -c $(SRCCLIENT)
-	@gcc $(LIBFLAG) -o $(CLIENT) $(OBJCLIENT)
+	@gcc $(LIBFLAG) $(OPTIONS) $(SRCCLIENT)
+	@gcc $(LIBFLAG) -o $(CLIENT) $(OBJCLIENT) -L libft/ -lft -ltermcap
 	@echo "\x1B[32mCompiled client files.\x1B[0m"
 
 server:
-	@gcc $(LIBFLAG) -c $(SRCSERVER)
-	@gcc $(LIBFLAG) -o $(SERVER) $(OBJSERVER)
+	@gcc $(LIBFLAG) $(OPTIONS) $(SRCSERVER)
+	@gcc $(LIBFLAG) -o $(SERVER) $(OBJSERVER) -L libft/ -lft -ltermcap
 	@echo "\x1B[32mCompiled server files.\x1B[0m"
 
+lib:
+	@make -C libft/
+
 clean:
+	@make -C libft/ clean
 	@rm -rf $(OBJSERVER) $(OBJCLIENT)
 	@echo "\x1B[32mCleaned up compiled files.\x1B[0m"
 fclean: clean
+	@make -C libft/ fclean
 	@/bin/rm -f $(SERVER)
 	@/bin/rm -f $(CLIENT)
 

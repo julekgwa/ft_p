@@ -18,29 +18,21 @@
 #define ERROR -1
 #define MAX_DATA 1024
 
-void test() {
-    char *args[2];
-
-    args[0] = "/bin/ls";
-    args[1] = NULL;
-    if (execv(args[0], args) < -1)
-        perror("execv");
+void test(char *data, char **envp) {
+    char **sp = SPLIT(data, ' ');
+    ft_execute_cmd(sp[0], sp, envp);
 }
 
-void test2() {
-    char *args[2];
-
-    args[0] = "/bin/pwd";
-    args[1] = NULL;
-    if (execv(args[0], args) < ERROR)
-        perror("execv");
+void test2(char *data, char **envp) {
+    char **sp = SPLIT(data, ' ');
+    ft_execute_cmd(sp[0], sp, envp);
 }
 
-void handle_client(char *data) {
+void handle_client(char *data, char **envp) {
     if (strncmp(data, "ls", strlen(data)) == 0) {
-        test();
+        test(data,envp);
     } else
-        test2();
+        test2(data, envp);
 }
 
 int main(int ac, char **av, char **envp) {
@@ -94,7 +86,7 @@ int main(int ac, char **av, char **envp) {
                 data[data_len] = '\0';
                 pid = fork();
                 if (pid == 0) {
-                    handle_client(data);
+                    handle_client(data, envp);
                 }
                 wait(&status);
             }
@@ -102,7 +94,7 @@ int main(int ac, char **av, char **envp) {
         close(client_fd);
         dup2(stdout_copy, 1);
         printf("Client disconnected\n");
-        dup2(stdout_copy, 1);
+        //dup2(stdout_copy, 1);
     }
     return 0;
 }

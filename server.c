@@ -17,6 +17,9 @@
 
 #define ERROR -1
 #define MAX_DATA 1024
+char    *ft_get_logical_sep(char *line);
+void    split_by_word(char av[][BUFF_SIZE], char **arr, char *word);
+int     ft_pro_cmd2(char *cmd, char  **envp, t_stack *hist);
 //int		ft_advanced_com2(t_cmd *cmd, t_env *envp, t_stack *hist);
 //
 //void	ft_multi_com2(t_cmd *cmd, t_env *envp, t_stack *hist)
@@ -97,6 +100,70 @@ int		ft_advanced_com2(char *cmd, char **envp, t_stack *hist)
    return (val);
 }
 
+int     ft_run_commands2(char *cmd, char **envp, t_stack *hist)
+{
+    return (ft_advanced_com2(cmd, envp, hist));
+}
+
+void    ft_log_op2(char *cmd, char **envp, t_stack *hist)
+{
+    char    log[BUFF_SIZE][BUFF_SIZE];
+    char    *sep;
+    int     i;
+    // char logic;
+    int     exec;
+    char    **split;
+
+    memset(log, 0, sizeof(log[0][0]) * BUFF_SIZE * BUFF_SIZE);
+    exec = 0;
+    split = SPLIT(cmd, ' ');
+    sep = ft_get_logical_sep(cmd);
+    i = 0;
+    split_by_word(log, split, sep);
+    while (log[i] && log[i][0])
+    {
+        // logic.get_line = log[i];
+        if (exec == -1 && EQUAL(sep, "&&"))
+            break ;
+        exec = ft_pro_cmd2(log[i], envp, hist);
+        if (exec == 0 && EQUAL(sep, "||"))
+            break ;
+        i++;
+    }
+    free(sep);
+    freecopy(split);
+}
+
+
+int     ft_pro_cmd2(char *cmd, char  **envp, t_stack *hist)
+{
+    char    *tmp;
+    char    **split;
+
+    tmp = ft_strdup(cmd);
+    hist->counter = -1;
+    ft_str_substitution(&cmd, envp);
+    if ((split = ft_strsplit(cmd, ' ')) != NULL)
+    {
+        // if (ft_strequ(cmd->user_comm[0], "quit"))
+        // {
+        //     free_cmd(cmd);
+        //     ft_free_hash_table(hist->hash);
+        //     ft_close_keyboard(t);
+        //     exit(0);
+        // }
+        ft_push(hist, tmp);
+        // ft_term_off(t);
+        if (ft_is_logical(cmd))
+            ft_log_op2(cmd, envp,hist);
+        else
+            hist->counter = ft_run_commands2(cmd, envp, hist);
+        // ft_term_on(t);
+    }
+    freecopy(split);
+    return (hist->counter);
+}
+
 void test(char *data, char **envp) {
     char **sp = SPLIT(data, ' ');
     ft_send_cmd_to_server(sp[0], sp, envp);
@@ -121,7 +188,7 @@ void handle_client(char *data, char **envp, t_stack *hist) {
     //     ft_send_cmd_to_server(split[0], split, envp);
     // }else
     //     ft_print_error(split[0], 0);
-    ft_advanced_com2(data, envp, hist);
+    ft_pro_cmd2(data, envp, hist);
 }
 
 int main(int ac, char **av, char **envp) {

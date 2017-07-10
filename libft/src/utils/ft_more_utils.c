@@ -64,9 +64,9 @@ int		ft_advanced_com(t_cmd *cmd, t_env *envp, t_stack *hist)
 	else if (SEARCH(search[0]) && !CONTAINS(cmd->get_line, '>'))
 		val = ft_execute_commands(search, cmd->get_line, envp, hist);
 	else if ((exec = ft_build_exec(cmd->user_comm, hist)))
-		val = EXECUTE(exec, cmd, envp->list, hist);
+		val = EXECUTE(cmd->get_line, cmd, envp->list, hist);
 	else if (ft_is_execute(cmd->user_comm[0]))
-		val = EXECUTE(cmd->user_comm[0], cmd, envp->list, hist);
+		val = EXECUTE(cmd->get_line, cmd, envp->list, hist);
 	else
 		ft_print_error(cmd->user_comm[0], 0);
 	freecopy(search);

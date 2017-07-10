@@ -13,27 +13,27 @@
 #define BUFFER 1024
 #define ERROR -1
 
-void display_response(int fd) {
-    ssize_t len;
-    char output[BUFFER];
-
-    len = recv(fd, output, BUFFER, 0);
-//    if (len) {
-        output[len] = '\0';
-        printf("%s", output);
+//void display_response(int fd) {
+//    ssize_t len;
+//    char output[BUFFER];
+//
+//    len = recv(fd, output, BUFFER, 0);
+////    if (len) {
+//        output[len] = '\0';
+//        printf("%s", output);
+////    }
+//}
+//
+//void send_to_server(t_cmd *cmd, int server_fd, struct termios *term, t_stack *hist) {
+//    if (EQUAL(cmd->get_line, "quit")) {
+//        free_cmd(cmd);
+//        ft_free_hash_table(hist->hash);
+//        ft_close_keyboard(term);
+//        exit(0);
 //    }
-}
-
-void send_to_server(t_cmd *cmd, int server_fd, struct termios *term, t_stack *hist) {
-    if (EQUAL(cmd->get_line, "quit")) {
-        free_cmd(cmd);
-        ft_free_hash_table(hist->hash);
-        ft_close_keyboard(term);
-        exit(0);
-    }
-    send(server_fd, cmd->get_line, strlen(cmd->get_line), 0);
-    display_response(server_fd);
-}
+//    send(server_fd, cmd->get_line, strlen(cmd->get_line), 0);
+//    display_response(server_fd);
+//}
 
 int main(int ac, char **av, char **envp) {
     struct termios term;
@@ -63,13 +63,14 @@ int main(int ac, char **av, char **envp) {
         perror("connect");
         exit(-1);
     }
+    cmd.fd = socket_fd;
     while (42) {
         prompt(&cmd, &hist);
         ft_process_slash_inhibitor(&cmd, &term);
         ft_complete_cmd(&cmd, &term);
         ft_putchar('\n');
         if (!ft_strequ(cmd.get_line, "") && ft_spaces_tabs(cmd.get_line))
-            send_to_server(&cmd, socket_fd, &term, &hist);
+            ft_pro_cmd(&cmd, envp_copy, &term, &hist);
         free(cmd.get_line);
     }
     return (0);

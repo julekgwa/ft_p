@@ -74,9 +74,9 @@ int		ft_execute(char *command, t_cmd *cmd, char **envp, t_stack *hist)
 	else if (pid == 0)
 	{
 		if (ft_is_pipe_or_redirect(cmd->get_line))
-			ft_process_pipes(cmd->get_line, envp, hist);
+			ft_process_pipes(cmd->get_line, envp, hist, cmd->fd);
 		else
-			ft_execute_cmd(command, cmd->user_comm, envp);
+			ft_execute_cmd(command, cmd->user_comm, envp, cmd->fd);
 		exit(0);
 	}
 	else

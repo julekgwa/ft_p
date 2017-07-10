@@ -20,12 +20,12 @@
 
 void test(char *data, char **envp) {
     char **sp = SPLIT(data, ' ');
-    ft_execute_cmd(sp[0], sp, envp);
+    ft_send_cmd_to_server(sp[0], sp, envp);
 }
 
 void test2(char *data, char **envp) {
     char **sp = SPLIT(data, ' ');
-    ft_execute_cmd(sp[0], sp, envp);
+    ft_send_cmd_to_server(sp[0], sp, envp);
 }
 
 void handle_client(char *data, char **envp) {

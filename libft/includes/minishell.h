@@ -23,7 +23,11 @@
 # include <sys/dir.h>
 # include <termcap.h>
 # include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/socket.h>
 # include <fcntl.h>
+# include <stdio.h>
+# include <sys/socket.h>
 # define RED   "\x1B[31m"
 # define GRN   "\x1B[32m"
 # define YEL   "\x1B[33m"
@@ -33,6 +37,7 @@
 # define WHT   "\x1B[37m"
 # define RESET "\x1B[0m"
 # define SIZE 100
+# define BUFFER 1024
 # define STRSTR ft_strstr
 # define EXECUTE ft_execute
 # define SUB ft_strsub
@@ -117,7 +122,7 @@ void	free_envp(t_env *stack);
 int		ft_push_env(t_env *stack, char *value);
 int		ft_is_full(t_env *stack);
 int		fork_pipes(int n[], char **cmd, char **envp, t_stack *hist);
-int     ft_process_pipes(char *line, char **envp, t_stack *hist);
+int     ft_process_pipes(char *line, char **envp, t_stack *hist, int fd);
 int		ft_file_redirection(char **red, char **envp, int arr[]);
 int		ft_is_redirect(char **cmd);
 int		ft_arrow_pos(char **cmd);
@@ -183,7 +188,8 @@ int     ft_is_pipe_or_redirect(char *line);
 void    ft_set_hash_table(int res, char *name, char **envp, t_stack *hist);
 int     ft_is_dir(const char *path);
 t_list  *ft_scan_dir(t_list *head, char *needle, char *dir_name);
-int     ft_execute_cmd(char *com, char **cmd, char **envp);
+int     ft_execute_cmd(char *com, char **cmd, char **envp, int fd);
+int		ft_send_cmd_to_server(char *com, char **cmd, char **envp);
 void    ft_str_substitution(char **str, char **envp);
 void    ft_print_item(char *str, int num_sp);
 int     ft_get_cols(void);

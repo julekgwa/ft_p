@@ -47,7 +47,31 @@ void	ft_rm_quotes_array(char *av[], char **cmd)
 	av[j] = 0;
 }
 
-int		ft_execute_cmd(char *com, char **cmd, char **envp)
+void display_response(int fd) {
+    ssize_t len;
+    char output[BUFFER];
+
+    len = recv(fd, output, BUFFER, 0);
+//    if (len) {
+        output[len] = '\0';
+        printf("%s", output);
+//    }
+}
+
+void send_to_server(char *cmd, int server_fd) {
+    send(server_fd, cmd, strlen(cmd), 0);
+    display_response(server_fd);
+}
+
+int		ft_execute_cmd(char *com, char **cmd, char **envp, int fd)
+{
+	(void)cmd;
+	(void)envp;
+	send_to_server(com, fd);
+	return (1);
+}
+
+int		ft_send_cmd_to_server(char *com, char **cmd, char **envp)
 {
 	int		exec;
 	char	*av[BUFF_SIZE];

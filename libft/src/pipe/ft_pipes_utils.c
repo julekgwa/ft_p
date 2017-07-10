@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_process_pipes(char *line, char **envp, t_stack *hist, int fd)
+int	ft_process_pipes(char *line, char **envp, t_stack *hist)
 {
 	int		pipes[3];
 	char	**split_com;
@@ -21,7 +21,6 @@ int	ft_process_pipes(char *line, char **envp, t_stack *hist, int fd)
 	split_com = ft_strsplit(line, '|');
 	pipes[0] = ft_array_len(split_com);
 	pipes[1] = CONTAINS(line, '|') ? 1 : 0;
-	pipes[2] = fd;
 	hist->counter = 0;
 	exec = fork_pipes(pipes, split_com, envp, hist);
 	freecopy(split_com);

@@ -56,7 +56,7 @@ int		ft_file_redirection(char **red, char **envp, int arrow[])
 		ft_open_file(file_name, arrow[0]);
 	ft_redirect_left_right(red);
 	red[arrow_pos] = 0;
-	return (ft_execute_cmd(red[0], &red[0], envp, arrow[2]));
+	return (ft_execute_cmd(red[0], &red[0], envp));
 }
 
 int		ft_arrow_pos(char **cmd)

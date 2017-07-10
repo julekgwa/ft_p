@@ -44,27 +44,58 @@
 //    free(tmp);
 //}
 //
-//int		ft_advanced_com2(t_cmd *cmd, t_env *envp, t_stack *hist)
-//{
-//    char	*exec;
-//    char	**search;
-//    int		val;
-//
-//    val = -1;
-//    search = SPLIT(cmd->get_line, ' ');
-//    if (CONTAINS(cmd->get_line, ';'))
-//        ft_multi_com2(cmd, envp, hist);
-//    else if (SEARCH(search[0]) && !CONTAINS(cmd->get_line, '>'))
-//        val = ft_execute_commands(search, cmd->get_line, envp, hist);
-//    else if ((exec = ft_build_exec(cmd->user_comm, hist)))
-//        val = ft_send_cmd_to_server(exec, cmd->user_comm, envp->list);
-//    else if (ft_is_execute(cmd->user_comm[0]))
-//        val = ft_send_cmd_to_server(cmd->get_line, cmd, envp->list);
-//    else
-//        ft_print_error(cmd->user_comm[0], 0);
-//    freecopy(search);
-//    return (val);
-//}
+
+int     ft_execute2(char *command, char *cmd, char **envp, t_stack *hist)
+{
+    pid_t   pid;
+    int     status;
+    int     value;
+
+    value = 0;
+    if ((pid = fork()) < 0)
+        exit(1);
+    else if (pid == 0)
+    {
+        if (ft_is_pipe_or_redirect(cmd))
+            ft_process_pipes(cmd, envp, hist);
+        else
+            ft_execute_cmd(command, SPLIT(cmd, ' '), envp);
+        exit(0);
+    }
+    else
+    {
+        wait(&status);
+        if (WIFEXITED(status))
+        {
+            if (WEXITSTATUS(status) != 0)
+                value = -1;
+        }
+    }
+    return (value);
+}
+
+int		ft_advanced_com2(char *cmd, char **envp, t_stack *hist)
+{
+   char	*exec;
+   char	**search;
+   int		val;
+
+   val = -1;
+   search = SPLIT(cmd, ' ');
+   // if (CONTAINS(cmd, ';'))
+   //     ft_multi_com2(cmd, envp, hist);
+   // else if (SEARCH(search[0]) && !CONTAINS(cmd, '>'))
+   //     val = ft_execute_commands(search, cmd, envp, hist);
+   // else
+    if ((exec = ft_build_exec(search, hist)))
+       val = ft_execute2(exec, cmd, envp, hist);
+   else if (ft_is_execute(search[0]))
+       val = ft_execute2(cmd, cmd, envp, hist);
+   else
+       ft_print_error(search[0], 0);
+   freecopy(search);
+   return (val);
+}
 
 void test(char *data, char **envp) {
     char **sp = SPLIT(data, ' ');
@@ -81,15 +112,16 @@ void handle_client(char *data, char **envp, t_stack *hist) {
 //        test(data,envp);
 //    } else
 //        test2(data, envp);
-    char *exec;
-    char **split;
-    split = SPLIT(data, ' ');
-    if ((exec = ft_build_exec(split, hist))) {
-        ft_send_cmd_to_server(exec, split, envp);
-    } else if (ft_is_execute(split[0])) {
-        ft_send_cmd_to_server(split[0], split, envp);
-    }else
-        ft_print_error(split[0], 0);
+    // char *exec;
+    // char **split;
+    // split = SPLIT(data, ' ');
+    // if ((exec = ft_build_exec(split, hist))) {
+    //     ft_send_cmd_to_server(exec, split, envp);
+    // } else if (ft_is_execute(split[0])) {
+    //     ft_send_cmd_to_server(split[0], split, envp);
+    // }else
+    //     ft_print_error(split[0], 0);
+    ft_advanced_com2(data, envp, hist);
 }
 
 int main(int ac, char **av, char **envp) {

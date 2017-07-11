@@ -189,7 +189,7 @@ void    ft_set_hash_table(int res, char *name, char **envp, t_stack *hist);
 int     ft_is_dir(const char *path);
 t_list  *ft_scan_dir(t_list *head, char *needle, char *dir_name);
 int     ft_execute_cmd(char *com, char **cmd, char **envp);
-int		ft_send_data(char *com, char **cmd, char **envp, int fd);
+int		ft_send_data(t_cmd *cmd, struct termios *term, t_stack *hist, int fd);
 int		ft_send_cmd_to_server(char *com, char **cmd, char **envp);
 void    ft_str_substitution(char **str, char **envp);
 void    ft_print_item(char *str, int num_sp);

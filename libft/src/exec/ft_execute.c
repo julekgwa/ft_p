@@ -63,11 +63,15 @@ void send_to_server(char *cmd, int server_fd) {
     display_response(server_fd);
 }
 
-int		ft_send_data(char *com, char **cmd, char **envp, int fd)
+int		ft_send_data(t_cmd *cmd, struct termios *term, t_stack *hist, int fd)
 {
-	(void)cmd;
-	(void)envp;
-	send_to_server(com, fd);
+	 if (EQUAL(cmd->get_line, "quit")) {
+       free_cmd(cmd);
+       ft_free_hash_table(hist->hash);
+       ft_close_keyboard(term);
+       exit(0);
+   }
+	send_to_server(cmd->get_line, fd);
 	return (1);
 }
 

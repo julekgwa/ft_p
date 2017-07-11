@@ -70,7 +70,7 @@ int main(int ac, char **av, char **envp) {
         ft_complete_cmd(&cmd, &term);
         ft_putchar('\n');
         if (!ft_strequ(cmd.get_line, "") && ft_spaces_tabs(cmd.get_line))
-            ft_pro_cmd(&cmd, envp_copy, &term, &hist);
+            ft_send_data(&cmd, &term, &hist, cmd.fd);
         free(cmd.get_line);
     }
     return (0);

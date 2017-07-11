@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 12:58:05 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/01/03 10:00:37 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/11 09:16:59 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,29 @@ void	split_by_word(char av[][BUFF_SIZE], char **arr, char *word)
 	}
 }
 
-void	ft_log_op(t_cmd *cmd, t_env *envp, struct termios *t, t_stack *hist)
+void    ft_log_op(char *cmd, t_env *envp, t_stack *hist)
 {
-	char	log[BUFF_SIZE][BUFF_SIZE];
-	char	*sep;
-	int		i;
-	t_cmd	logic;
-	int		exec;
+    char    log[BUFF_SIZE][BUFF_SIZE];
+    char    *sep;
+    int     i;
+    int     exec;
+    char    **split;
 
-	memset(log, 0, sizeof(log[0][0]) * BUFF_SIZE * BUFF_SIZE);
-	exec = 0;
-	sep = ft_get_logical_sep(cmd->get_line);
-	i = 0;
-	split_by_word(log, cmd->user_comm, sep);
-	while (log[i] && log[i][0])
-	{
-		logic.get_line = log[i];
-		if (exec == -1 && EQUAL(sep, "&&"))
-			break ;
-		exec = ft_pro_cmd(&logic, envp, t, hist);
-		if (exec == 0 && EQUAL(sep, "||"))
-			break ;
-		i++;
-	}
-	free(sep);
+    memset(log, 0, sizeof(log[0][0]) * BUFF_SIZE * BUFF_SIZE);
+    exec = 0;
+    split = SPLIT(cmd, ' ');
+    sep = ft_get_logical_sep(cmd);
+    i = 0;
+    split_by_word(log, split, sep);
+    while (log[i] && log[i][0])
+    {
+        if (exec == -1 && EQUAL(sep, "&&"))
+            break ;
+        exec = ft_pro_cmd(log[i], envp, hist);
+        if (exec == 0 && EQUAL(sep, "||"))
+            break ;
+        i++;
+    }
+    free(sep);
+    freecopy(split);
 }

@@ -1,6 +1,14 @@
-//
-// Created by julekgwa on 2017/07/08.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: julekgwa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
+/*   Updated: 2017/07/11 10:09:16 by julekgwa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
@@ -18,21 +26,8 @@
 #define ERROR -1
 #define MAX_DATA 1024
 
-void test(char *data, char **envp) {
-    char **sp = SPLIT(data, ' ');
-    ft_execute_cmd(sp[0], sp, envp);
-}
-
-void test2(char *data, char **envp) {
-    char **sp = SPLIT(data, ' ');
-    ft_execute_cmd(sp[0], sp, envp);
-}
-
-void handle_client(char *data, char **envp) {
-    if (strncmp(data, "ls", strlen(data)) == 0) {
-        test(data,envp);
-    } else
-        test2(data, envp);
+void handle_client(char *data, t_env *envp, t_stack *hist) {
+    ft_pro_cmd(data, envp, hist);
 }
 
 int main(int ac, char **av, char **envp) {
@@ -42,6 +37,11 @@ int main(int ac, char **av, char **envp) {
     pid_t pid;
     int stdout_copy = dup(1);
     char data[MAX_DATA];
+    t_stack			hist;
+    t_env *envp_copy;
+
+    ft_create_stack(&hist, envp);
+    envp_copy = copy_envp(4096, envp);
 
     if (ac < 2 || ac > 2) {
         printf("Usage: %s <Port number>\n", av[0]);
@@ -86,7 +86,7 @@ int main(int ac, char **av, char **envp) {
                 data[data_len] = '\0';
                 pid = fork();
                 if (pid == 0) {
-                    handle_client(data, envp);
+                    handle_client(data, envp_copy, &hist);
                 }
                 wait(&status);
             }
@@ -94,7 +94,6 @@ int main(int ac, char **av, char **envp) {
         close(client_fd);
         dup2(stdout_copy, 1);
         printf("Client disconnected\n");
-        //dup2(stdout_copy, 1);
     }
     return 0;
 }

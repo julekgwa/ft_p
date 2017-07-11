@@ -38,12 +38,13 @@ void	ft_execute_child_proc(int in[], int out, char **cmd, char **envp)
 
 int		fork_pipes(int n[], char **cmd, char **envp, t_stack *hist)
 {
-	int		in[2];
+	int		in[3];
 	int		fd[2];
 	char	**cmd_s;
 
 	in[0] = 0;
 	in[1] = n[1];
+	// in[2] = n[2];
 	while (hist->counter < n[0] - 1)
 	{
 		pipe(fd);

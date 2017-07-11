@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:26:31 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/01/08 22:28:54 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/11 09:18:20 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		ft_execute_commands(char **cmd, char *line, t_env *envp, t_stack *hist)
     return (0);
 }
 
-int		ft_run_commands(t_cmd *cmd, t_env *envp, t_stack *hist)
+int     ft_run_commands(char *cmd, t_env *envp, t_stack *hist)
 {
     return (ft_advanced_com(cmd, envp, hist));
 }

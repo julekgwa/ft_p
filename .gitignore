@@ -141,6 +141,7 @@ CMakeLists.txt
 test.cpp
 /**/*.o
 /**/*.so
+/**/*.a
 Nibbler
 .idea/
 client

@@ -14,7 +14,7 @@
 
 int	ft_process_pipes(char *line, char **envp, t_stack *hist)
 {
-	int		pipes[2];
+	int		pipes[3];
 	char	**split_com;
 	int		exec;
 

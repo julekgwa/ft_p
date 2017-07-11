@@ -54,6 +54,7 @@ typedef struct		s_comms
 {
 	char			**user_comm;
 	char			*get_line;
+	int				fd;
 }					t_cmd;
 
 typedef struct		s_env

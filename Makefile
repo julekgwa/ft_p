@@ -39,4 +39,4 @@ fclean: clean
 	@/bin/rm -f $(SERVER)
 	@/bin/rm -f $(CLIENT)
 
-re: clean	all
+re: fclean	all

@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:01:06 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/01/06 21:33:17 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/11 09:18:53 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int		ft_contains(char *str, char c)
 	return (0);
 }
 
-void	ft_multi_com(t_cmd *cmd, t_env *envp, t_stack *hist)
+void	ft_multi_com(char *cmd, t_env *envp, t_stack *hist)
 {
 	t_cmd	*tmp;
 	char	**split_com;
 	int		i;
 
 	tmp = (t_cmd *)malloc(sizeof(t_cmd) + 1);
-	split_com = SPLIT(cmd->get_line, ';');
+	split_com = SPLIT(cmd, ';');
 	i = 0;
 	if (split_com)
 	{
@@ -41,7 +41,7 @@ void	ft_multi_com(t_cmd *cmd, t_env *envp, t_stack *hist)
 		{
 			tmp->get_line = ft_strdup(split_com[i]);
 			tmp->user_comm = SPLIT(tmp->get_line, ' ');
-			ft_run_commands(tmp, envp, hist);
+			ft_run_commands(tmp->get_line, envp, hist);
 			free_cmd(tmp);
 			i++;
 		}
@@ -51,26 +51,26 @@ void	ft_multi_com(t_cmd *cmd, t_env *envp, t_stack *hist)
 	free(tmp);
 }
 
-int		ft_advanced_com(t_cmd *cmd, t_env *envp, t_stack *hist)
+int		ft_advanced_com(char *cmd, t_env *envp, t_stack *hist)
 {
-	char	*exec;
-	char	**search;
-	int		val;
+   char	*exec;
+   char	**search;
+   int		val;
 
-	val = -1;
-	search = SPLIT(cmd->get_line, ' ');
-	if (CONTAINS(cmd->get_line, ';'))
-		ft_multi_com(cmd, envp, hist);
-	else if (SEARCH(search[0]) && !CONTAINS(cmd->get_line, '>'))
-		val = ft_execute_commands(search, cmd->get_line, envp, hist);
-	else if ((exec = ft_build_exec(cmd->user_comm, hist)))
-		val = EXECUTE(exec, cmd, envp->list, hist);
-	else if (ft_is_execute(cmd->user_comm[0]))
-		val = EXECUTE(cmd->user_comm[0], cmd, envp->list, hist);
-	else
-		ft_print_error(cmd->user_comm[0], 0);
-	freecopy(search);
-	return (val);
+   val = -1;
+   search = SPLIT(cmd, ' ');
+   if (CONTAINS(cmd, ';'))
+       ft_multi_com(cmd, envp, hist);
+   else if (SEARCH(search[0]) && !CONTAINS(cmd, '>'))
+       val = ft_execute_commands(search, cmd, envp, hist);
+   else if ((exec = ft_build_exec(search, hist)))
+       val = ft_execute(exec, cmd, envp, hist);
+   else if (ft_is_execute(search[0]))
+       val = ft_execute(cmd, cmd, envp, hist);
+   else
+       ft_print_error(search[0], 0);
+   freecopy(search);
+   return (val);
 }
 
 char	*ft_last_word(const char *s)

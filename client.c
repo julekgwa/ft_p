@@ -1,6 +1,14 @@
-//
-// Created by julekgwa on 2017/07/04.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: julekgwa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/11 10:10:20 by julekgwa          #+#    #+#             */
+/*   Updated: 2017/07/11 10:10:22 by julekgwa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include <netinet/in.h>
@@ -12,28 +20,6 @@
 
 #define BUFFER 1024
 #define ERROR -1
-
-//void display_response(int fd) {
-//    ssize_t len;
-//    char output[BUFFER];
-//
-//    len = recv(fd, output, BUFFER, 0);
-////    if (len) {
-//        output[len] = '\0';
-//        printf("%s", output);
-////    }
-//}
-//
-//void send_to_server(t_cmd *cmd, int server_fd, struct termios *term, t_stack *hist) {
-//    if (EQUAL(cmd->get_line, "quit")) {
-//        free_cmd(cmd);
-//        ft_free_hash_table(hist->hash);
-//        ft_close_keyboard(term);
-//        exit(0);
-//    }
-//    send(server_fd, cmd->get_line, strlen(cmd->get_line), 0);
-//    display_response(server_fd);
-//}
 
 int main(int ac, char **av, char **envp) {
     struct termios term;

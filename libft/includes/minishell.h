@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:27:36 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/01/08 22:22:45 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/11 09:21:55 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char	**ft_check_env(char **cmd, char **envp);
 void	ft_unsetting_env(char *names, t_env *envp, t_stack *hist);
 char	*ft_build_exec(char **split, t_stack *hist);
 int		ft_is_execute(char *command);
-int	    ft_execute(char *cmd, t_cmd *usr_cmd, char **envp, t_stack *hist);
+int     ft_execute(char *command, char *cmd, t_env *envp, t_stack *hist);
 void	ft_print_error(char *cmd, int errorno);
-int	    ft_advanced_com(t_cmd *cmd, t_env *envp, t_stack *hist);
+int		ft_advanced_com(char *cmd, t_env *envp, t_stack *hist);
 int		ft_search_command(char *command);
 int	    ft_execute_commands(char **cmd, char *l, t_env *p, t_stack *hi);
 char	*ft_get_str(char **av);
@@ -105,8 +105,8 @@ void	ft_signal(void);
 void	init_main(int *ac, char ***av);
 void	manage_up_down(char **buf, char **com, t_stack *hist, int *pos);
 void	ft_ctrl_l(char *comm, int pos, t_stack *hist);
-int	    ft_run_commands(t_cmd *cmd, t_env *env, t_stack *hi);
-int	    ft_pro_cmd(t_cmd *c, t_env *en, struct termios *t, t_stack *hi);
+int     ft_run_commands(char *cmd, t_env *envp, t_stack *hist);
+int     ft_pro_cmd(char *cmd, t_env *envp, t_stack *hist);
 void	free_cmd(t_cmd *cmd);
 void	freecopy(char **copy);
 void	ft_free_str(char *str, char *join);
@@ -147,7 +147,7 @@ int		ft_enter_key(char **comm, int *pos, t_stack *hist);
 int		ft_read_here_doc(int fd, char *s);
 void	ft_remove_single_qoutes(t_cmd *cmd);
 void	ft_export(char **cmd, t_env *envp);
-void	ft_log_op(t_cmd *c, t_env *en, struct termios *t, t_stack *hi);
+void    ft_log_op(char *cmd, t_env *envp, t_stack *hist);
 int		ft_is_logical(char *line);
 void	ft_display_cmd(char *cmd, int pos);
 void	ft_display_sp(int sp);

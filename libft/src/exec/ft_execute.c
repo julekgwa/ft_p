@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 12:37:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/12 18:31:54 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/12 20:31:59 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,19 @@ void display_response(int fd)
 {
     ssize_t len;
     char output[BUFFER];
+    char feedback[] = "received";
 
     len = BUFFER;
-    while (len >= BUFFER)
+    while (len)
     {
         len = recv(fd, output, BUFFER, 0);
         if (len)
         {
             output[len] = '\0';
+            if (strncmp(output, "done", 4) == 0) 
+            	break;
+            if (len < BUFFER)
+            	send(fd, feedback, strlen(feedback), 0);
             printf("%s", output);
         }
     }

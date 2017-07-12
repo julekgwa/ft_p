@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/12 18:29:41 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/12 20:21:56 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,16 @@
 #define ERROR -1
 #define MAX_DATA 1024
 
-void handle_client(char *data, t_env *envp, t_stack *hist)
+void handle_client(char *data, t_env *envp, t_stack *hist, int client_fd)
 {
     // printf("%s\n", "connected");
-    ft_pro_cmd(data, envp, hist);
-    printf("%s\n", "Testing");
+    // char client[10];
+    if (strcmp(data, "received") != 0)
+        ft_pro_cmd(data, envp, hist);
+    // printf("%s\n", "Testing");
+    // recv(client_fd, client, 10, 0);
+    char s[] = "done";
+    send(client_fd, s, strlen(s), 0);
 }
 
 int main(int ac, char **av, char **envp)
@@ -100,7 +105,7 @@ int main(int ac, char **av, char **envp)
                 pid = fork();
                 if (pid == 0)
                 {
-                    handle_client(data, envp_copy, &hist);
+                    handle_client(data, envp_copy, &hist, client_fd);
                 }
                 wait(&status);
             }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julekgwa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:10:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/11 10:10:22 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/12 16:29:22 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 #include <sys/socket.h>
 #include <stdio.h>
 
-#define BUFFER 1024
 #define ERROR -1
 
-int main(int ac, char **av, char **envp) {
+int main(int ac, char **av, char **envp)
+{
     struct termios term;
     t_stack hist;
     t_cmd cmd;
@@ -35,7 +35,8 @@ int main(int ac, char **av, char **envp) {
     signal(SIGINT, ft_ctrl_c_signal_handler);
     (void) envp_copy;
 
-    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR) {
+    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR)
+    {
         perror("socket");
         exit(-1);
     }
@@ -45,12 +46,14 @@ int main(int ac, char **av, char **envp) {
     remote_server.sin_addr.s_addr = inet_addr(av[1]);
     bzero(&remote_server.sin_zero, 8);
 
-    if ((connect(socket_fd, (struct sockaddr *) &remote_server, sizeof(struct sockaddr_in))) == ERROR) {
+    if ((connect(socket_fd, (struct sockaddr *) &remote_server, sizeof(struct sockaddr_in))) == ERROR)
+    {
         perror("connect");
         exit(-1);
     }
     cmd.fd = socket_fd;
-    while (42) {
+    while (42)
+    {
         prompt(&cmd, &hist);
         ft_process_slash_inhibitor(&cmd, &term);
         ft_complete_cmd(&cmd, &term);

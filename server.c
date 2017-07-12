@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julekgwa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/11 10:09:16 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/12 18:29:41 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,36 @@
 #define ERROR -1
 #define MAX_DATA 1024
 
-void handle_client(char *data, t_env *envp, t_stack *hist) {
+void handle_client(char *data, t_env *envp, t_stack *hist)
+{
+    // printf("%s\n", "connected");
     ft_pro_cmd(data, envp, hist);
+    printf("%s\n", "Testing");
 }
 
-int main(int ac, char **av, char **envp) {
+int main(int ac, char **av, char **envp)
+{
     int socket_fd, len, client_fd;
     ssize_t data_len;
     struct sockaddr_in server, client;
     pid_t pid;
     int stdout_copy = dup(1);
     char data[MAX_DATA];
-    t_stack			hist;
+    t_stack hist;
     t_env *envp_copy;
 
     ft_create_stack(&hist, envp);
     envp_copy = copy_envp(4096, envp);
 
-    if (ac < 2 || ac > 2) {
+    if (ac < 2 || ac > 2)
+    {
         printf("Usage: %s <Port number>\n", av[0]);
         exit(1);
     }
 
     //    socket
-    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR) {
+    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR)
+    {
         perror("socket: ");
         exit(-1);
     }
@@ -62,7 +68,8 @@ int main(int ac, char **av, char **envp) {
     //    bind
     len = sizeof(struct sockaddr_in);
 
-    if ((bind(socket_fd, (struct sockaddr *) &server, len)) == ERROR) {
+    if ((bind(socket_fd, (struct sockaddr *) &server, len)) == ERROR)
+    {
         perror("Bind");
         exit(-1);
     }
@@ -70,22 +77,29 @@ int main(int ac, char **av, char **envp) {
     //    listen
     listen(socket_fd, 5);
     int status;
-    while (42) {
+    while (42)
+    {
         //    accept
-        if ((client_fd = accept(socket_fd, (struct sockaddr *) &client, (socklen_t *) &len)) == ERROR) {
+        if ((client_fd = accept(socket_fd, (struct sockaddr *) &client, (socklen_t * ) & len)) == ERROR)
+        {
             perror("accept");
             exit(-1);
         }
         printf("New client connected from port no %d and IP %s\n", ntohs(client.sin_port), inet_ntoa(client.sin_addr));
         close(1);
         data_len = 1;
+        dup2(client_fd, 0);
         dup2(client_fd, 1);
-        while (data_len) {
+        dup2(client_fd, 2);
+        while (data_len)
+        {
             data_len = recv(client_fd, data, MAX_DATA - 1, 0);
-            if (data_len) {
+            if (data_len)
+            {
                 data[data_len] = '\0';
                 pid = fork();
-                if (pid == 0) {
+                if (pid == 0)
+                {
                     handle_client(data, envp_copy, &hist);
                 }
                 wait(&status);

@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:23:04 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/01/08 22:29:30 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/12 12:55:58 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_handle_ctrl_c(int in_c)
 
 void	ft_ctrl_c_signal_handler(int signum)
 {
-	ft_putstr("\n");
+	printf("%s", "\n");
 	ft_cmd_prompt();
 	tputs(tgetstr("so", NULL), 1, ft_myputchar);
 	ft_putchar(' ');
@@ -38,25 +38,25 @@ void	ft_print_error(char *cmd, int errorno)
 {
 	if (errorno == 3)
 	{
-		ft_putstr("cd: ");
-		ft_putstr("no such file or directory: ");
+		printf("%s", "cd: ");
+		printf("%s", "no such file or directory: ");
 		ft_putendl(cmd);
 		return ;
 	}
 	else if (errorno == 5)
 	{
-		ft_putstr("\n21sh: event not found: ");
+		printf("%s", "\n21sh: event not found: ");
 		ft_putendl(cmd);
 		return ;
 	}
-	ft_putstr("21sh: ");
-	ft_putstr(cmd);
+	printf("%s", "21sh: ");
+	printf("%s", cmd);
 	if (errorno == 1)
-		ft_putstr(": Permission denied\n");
+		printf("%s", ": Permission denied\n");
 	else if (errorno == 0)
-		ft_putstr(": command not found...\n");
+		printf("%s", ": command not found...\n");
 	else if (errorno == 2)
-		ft_putstr(": Is a directory\n");
+		printf("%s", ": Is a directory\n");
 }
 
 void	prompt(t_cmd *cmd, t_stack *hist)

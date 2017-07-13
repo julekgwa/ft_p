@@ -97,9 +97,15 @@ int ft_execute_cmd(char *com, char **cmd, char **envp)
     ft_rm_quotes_array(av, cmd);
     exec = execve(com, &av[0], envp);
     if (exec == -1 && !ft_is_executable(com))
+    {
         ft_print_error(com, 1);
+        exit(1);
+    }
     else if (exec == -1 && ft_is_dir(com))
+    {
         ft_print_error(com, 2);
+        exit(1);
+    }
     else
         printf("King is born\n");
     return (exec);

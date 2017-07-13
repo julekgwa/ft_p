@@ -29,6 +29,11 @@ int main(int ac, char **av, char **envp)
     struct sockaddr_in remote_server;
     int socket_fd;
 
+    if (ac < 3 || ac > 3)
+    {
+        printf("Insufficient number of arguments. \n Usage: ./%s <IP Address Of Server> <Port Number>",av[0]);
+        exit(1);
+    }
     ft_create_stack(&hist, envp);
     envp_copy = copy_envp(4096, envp);
     ft_init_keyboard(&term, &ac, &av);

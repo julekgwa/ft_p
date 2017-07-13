@@ -100,6 +100,8 @@ int ft_execute_cmd(char *com, char **cmd, char **envp)
         ft_print_error(com, 1);
     else if (exec == -1 && ft_is_dir(com))
         ft_print_error(com, 2);
+    else
+        printf("King is born\n");
     return (exec);
 }
 

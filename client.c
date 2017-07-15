@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:10:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 15:44:13 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 18:04:30 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,52 +21,59 @@
 
 #define ERROR -1
 
-void display_response(int fd)
-{
-    ssize_t len;
-    char output[BUFFER];
-    char feedback[] = "received";
+// int display_response(int fd)
+// {
+//     char *feedback;
+//     // ssize_t len;
+//     // char output[BUFFER];
+//     // char feedback[] = "received";
 
-    len = BUFFER;
-    while (len)
-    {
-        len = recv(fd, output, BUFFER, 0);
-        if (len)
-        {
-            output[len] = '\0';
-            if (strncmp(output, "done", 4) == 0) 
-                break;
-            if (len < BUFFER)
-                send(fd, feedback, strlen(feedback), 0);
-            printf("%s", output);
-        }
-    }
-}
+//     // len = BUFFER;
+//     // while (len)
+//     // {
+//     //     len = recv(fd, output, BUFFER, 0);
+//     //     if (len)
+//     //     {
+//     //         output[len] = '\0';
+//     //         if (strncmp(output, "done", 4) == 0) 
+//     //             break;
+//     //         if (len < BUFFER)
+//     //             send(fd, feedback, strlen(feedback), 0);
+//     //         printf("%s", output);
+//     //     }
+//     // }
+//     feedback = read_cmd(fd);
+//     if (EQUAL(feedback, "done"))
+//         return (1);
+//     printf("%s\n", feedback);
+//     return (0);
+// }
 
-void send_to_server(char *cmd, int server_fd)
-{
-    send(server_fd, cmd, strlen(cmd), 0);
-    display_response(server_fd);
-}
+// int send_to_server(char *cmd, int server_fd)
+// {
+//     printf("%s\n", "Connected");
+//     send(server_fd, cmd, strlen(cmd), 0);
+//     return display_response(server_fd);
+// }
 
 int ft_send_data(t_cmd *cmd, struct termios *term, t_stack *hist, int fd)
 {
     int put_get;
 
-    if (EQUAL(cmd->get_line, "quit"))
+    if ((put_get = ft_check_put_get(cmd->get_line)) == 1)
+        return (0);
+    if (put_get == 2)
+        ft_upload_file(cmd->get_line, fd);
+    else
+        put_get = send_to_server(cmd->get_line, fd);
+    printf("%s\n", "Disconnected");
+    if (EQUAL(cmd->get_line, "quit") || put_get == 1)
     {
         free_cmd(cmd);
         ft_free_hash_table(hist->hash);
         ft_close_keyboard(term);
         exit(0);
     }
-    if ((put_get = ft_check_put_get(cmd->get_line)) == 1)
-        return (0);
-    if (put_get == 2)
-        ft_upload_file(cmd->get_line, &cmd->get_line);
-    printf("%s\n", "Connected");
-    send_to_server(cmd->get_line, fd);
-    printf("%s\n", "Disconnected");
     return (1);
 }
 
@@ -97,7 +104,7 @@ int main(int ac, char **av, char **envp)
 
     if (ac < 3 || ac > 3)
     {
-        printf("Insufficient number of arguments. \n Usage: ./%s <IP Address Of Server> <Port Number>",av[0]);
+        printf("Insufficient number of arguments. \n Usage: ./%s <IP Address Of Server> <Port Number>", av[0]);
         exit(1);
     }
     ft_create_stack(&hist, envp);

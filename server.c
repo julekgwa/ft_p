@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 12:31:57 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 20:06:40 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@ void handle_client(char *data, t_env *envp, t_stack *hist, int client_fd)
     }
 }
 
+// char    *read_cmd(int fd)
+// {
+//     char    buff[MAX_DATA];
+//     char    *cmd;
+//     ssize_t retval;
+
+//     while (42)
+//     {
+//         retval = recv(fd, buff, MAX_DATA - 1, 0);
+//         if (retval)
+//         {
+//             buff[retval] = '\0';
+//             cmd = ft_strjoin(cmd, buff);
+//         }
+//         if (retval <= MAX_DATA)
+//             break;
+//     }
+//     return (cmd);
+// }
+
 int main(int ac, char **av, char **envp)
 {
     int socket_fd, len, client_fd;
@@ -44,7 +64,7 @@ int main(int ac, char **av, char **envp)
     struct sockaddr_in server, client;
     pid_t pid, pid2;
     int stdout_copy = dup(1);
-    char data[MAX_DATA];
+    // char data[MAX_DATA];
     t_stack hist;
     t_env *envp_copy;
 
@@ -78,6 +98,7 @@ int main(int ac, char **av, char **envp)
     //    listen
     listen(socket_fd, 5);
     int status;
+    char *cmd;
     while (42) {
         //    accept
         if ((client_fd = accept(socket_fd, (struct sockaddr *) &client, (socklen_t * ) & len)) == ERROR) {
@@ -94,12 +115,19 @@ int main(int ac, char **av, char **envp)
                 dup2(client_fd, 1);
                 dup2(client_fd, 2);
                 while (data_len) {
-                    data_len = recv(client_fd, data, MAX_DATA - 1, 0);
-                    if (data_len) {
-                        data[data_len] = '\0';
+                    cmd = read_cmd(client_fd);
+                    if (EQUAL(cmd, "quit") || data_len == 0)
+                    {
+                        char s[] = "done";
+        send(client_fd, s, strlen(s), 0);
+        // data_len = 0;
+        break;
+                    }
+                    if (cmd && data_len) {
+                        // data[data_len] = '\0';
                         pid = fork();
                         if (pid == 0) {
-                            handle_client(data, envp_copy, &hist, client_fd);
+                            handle_client(cmd, envp_copy, &hist, client_fd);
                         }
                         wait(&status);
                     }

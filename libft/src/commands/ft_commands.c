@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 07:45:09 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/11 09:15:56 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 20:58:44 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,12 @@ int     ft_pro_cmd(char *cmd, t_env *envp, t_stack *hist)
 
     tmp = ft_strdup(cmd);
     hist->counter = -1;
-    ft_str_substitution(&cmd, envp->list);
+    if (ft_strncmp(cmd, "put", 3) != 0) 
+    	ft_str_substitution(&cmd, envp->list);
     if ((split = ft_strsplit(cmd, ' ')) != NULL)
     {
-        // if (ft_strequ(cmd->user_comm[0], "quit"))
-        // {
-        //     free_cmd(cmd);
-        //     ft_free_hash_table(hist->hash);
-        //     ft_close_keyboard(t);
-        //     exit(0);
-        // }
         ft_push(hist, tmp);
-        if (ft_is_logical(cmd))
+        if (ft_is_logical(cmd) && !EQUAL(split[0], "put"))
             ft_log_op(cmd, envp,hist);
         else
             hist->counter = ft_run_commands(cmd, envp, hist);

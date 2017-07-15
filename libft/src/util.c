@@ -6,25 +6,25 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:26:31 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/12 20:16:43 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 15:48:20 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_search_command(char *command)
+int		ft_search_command(char *cm)
 {
     static char	*cmd = "echo pwd cd history setenv unsetenv env exit clear";
     char		**comm_split;
     int			i;
 
     i = 0;
-    if (EQUAL(command, "export") || EQUAL(command, "unset"))
+    if (check_builtin(cm))
         return (1);
     comm_split = ft_strsplit(cmd, ' ');
     while (comm_split[i])
     {
-        if (ft_strcmp(comm_split[i], command) == 0)
+        if (ft_strcmp(comm_split[i], cm) == 0)
         {
             freecopy(comm_split);
             return (1);
@@ -59,8 +59,8 @@ int		ft_execute_commands(char **cmd, char *line, t_env *envp, t_stack *hist)
         ft_unsetting_env(line, envp, hist);
     else if (ft_strequ(cmd[0], "history"))
         ft_display_hist(hist, cmd, 0);
-    else if (ft_strequ(cmd[0], "clear"))
-        tputs(tgetstr("cl", NULL), 1, ft_myputchar);
+    else if (ft_strequ(cmd[0], "put") || ft_strequ(cmd[0], "get"))
+        ft_put_get_file(cmd);
     return (0);
 }
 
@@ -96,5 +96,14 @@ char	*ft_build_cmd(t_stack *hist, char *comm, char *buf, int pos)
         ft_cursor(comm, pos + 1, hist);
     }
     return (comm);
+}
+
+int check_builtin(char *cmd)
+{
+    if (EQUAL(cmd, "export") || EQUAL(cmd, "unset"))
+        return (1);
+    if (EQUAL(cmd, "put") || EQUAL(cmd, "get"))
+        return (1);
+    return (0);
 }
 

@@ -8,7 +8,7 @@ OPTIONS = -c -I includes/ -I libft/includes/
 
 SRCSERVER = server.c read_file.c
 
-SRCCLIENT = client.c read_file.c
+SRCCLIENT = client.c read_file.c client_utils.c
 
 OBJSERVER = $(SRCSERVER:.c=.o)
 

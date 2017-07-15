@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 12:37:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/12 20:31:59 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 13:40:49 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,47 +45,6 @@ void ft_rm_quotes_array(char *av[], char **cmd)
         i++;
     }
     av[j] = 0;
-}
-
-void display_response(int fd)
-{
-    ssize_t len;
-    char output[BUFFER];
-    char feedback[] = "received";
-
-    len = BUFFER;
-    while (len)
-    {
-        len = recv(fd, output, BUFFER, 0);
-        if (len)
-        {
-            output[len] = '\0';
-            if (strncmp(output, "done", 4) == 0) 
-            	break;
-            if (len < BUFFER)
-            	send(fd, feedback, strlen(feedback), 0);
-            printf("%s", output);
-        }
-    }
-}
-
-void send_to_server(char *cmd, int server_fd)
-{
-    send(server_fd, cmd, strlen(cmd), 0);
-    display_response(server_fd);
-}
-
-int ft_send_data(t_cmd *cmd, struct termios *term, t_stack *hist, int fd)
-{
-    if (EQUAL(cmd->get_line, "quit"))
-    {
-        free_cmd(cmd);
-        ft_free_hash_table(hist->hash);
-        ft_close_keyboard(term);
-        exit(0);
-    }
-    send_to_server(cmd->get_line, fd);
-    return (1);
 }
 
 int ft_execute_cmd(char *com, char **cmd, char **envp)

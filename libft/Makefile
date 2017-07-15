@@ -6,7 +6,7 @@
 #    By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 07:28:36 by julekgwa          #+#    #+#              #
-#    Updated: 2017/07/15 15:36:42 by julekgwa         ###   ########.fr        #
+#    Updated: 2017/07/15 23:06:23 by julekgwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRC = ./src/ft_memset.c ./src/ft_bzero.c ./src/ft_memcpy.c ./src/ft_memccpy.c ./
       ./src/auto/ft_auto_search.c ./src/auto/ft_auto_utils.c ./src/auto/ft_auto_misc.c \
       ./src/hash_table/ft_hash_table.c ./src/hash_table/ft_hash_table_utils.c \
       ./src/exec/ft_execute.c ./src/substitution/ft_sub.c ./src/auto/ft_format.c \
-      ./src/pipe/ft_pipes_utils.c ./src/server/file_io.c ./src/server/server_utils.c
+      ./src/pipe/ft_pipes_utils.c ./src/servers/file_io.c ./src/servers/server_utils.c
 OBJECT = ft_memset.o ft_bzero.o ft_memcpy.o ft_memccpy.o ft_memmove.o \
       ft_memchr.o ft_memcmp.o ft_strlen.o ft_strnstr.o \
       ft_strdup.o ft_strcpy.o ft_strncpy.o ft_strcat.o ft_strncat.o \

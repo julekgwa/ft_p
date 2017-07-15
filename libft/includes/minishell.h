@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:27:36 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 20:12:45 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 22:14:21 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,5 +209,6 @@ int ft_check_put_get(char *cmd);
 int	ft_upload_file(char *put, int fd);
 void    ft_put_get_file(char **cmd, char *orig);
 char    *read_cmd(int fd);
+int ft_file_exist(char *filename);
 
 #endif

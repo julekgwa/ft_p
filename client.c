@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:10:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 18:04:30 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 22:29:14 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,6 @@
 #include <stdio.h>
 
 #define ERROR -1
-
-// int display_response(int fd)
-// {
-//     char *feedback;
-//     // ssize_t len;
-//     // char output[BUFFER];
-//     // char feedback[] = "received";
-
-//     // len = BUFFER;
-//     // while (len)
-//     // {
-//     //     len = recv(fd, output, BUFFER, 0);
-//     //     if (len)
-//     //     {
-//     //         output[len] = '\0';
-//     //         if (strncmp(output, "done", 4) == 0) 
-//     //             break;
-//     //         if (len < BUFFER)
-//     //             send(fd, feedback, strlen(feedback), 0);
-//     //         printf("%s", output);
-//     //     }
-//     // }
-//     feedback = read_cmd(fd);
-//     if (EQUAL(feedback, "done"))
-//         return (1);
-//     printf("%s\n", feedback);
-//     return (0);
-// }
-
-// int send_to_server(char *cmd, int server_fd)
-// {
-//     printf("%s\n", "Connected");
-//     send(server_fd, cmd, strlen(cmd), 0);
-//     return display_response(server_fd);
-// }
 
 int ft_send_data(t_cmd *cmd, struct termios *term, t_stack *hist, int fd)
 {
@@ -90,7 +55,9 @@ int ft_check_put_get(char *cmd)
         freecopy(check);
         return (1);
     }
-    return (2);
+    if (EQUAL(check[0], "put"))
+        return (2);
+    return (3);
 }
 
 int main(int ac, char **av, char **envp)

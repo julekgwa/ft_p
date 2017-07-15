@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:27:36 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 15:40:51 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 20:12:45 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,8 @@ int 	check_builtin(char *cmd);
 char *read_file(const char *filename);
 void    write_file(char *file, char *content);
 int ft_check_put_get(char *cmd);
-void	ft_upload_file(char *put, char **line);
-void    ft_put_get_file(char **cmd);
+int	ft_upload_file(char *put, int fd);
+void    ft_put_get_file(char **cmd, char *orig);
+char    *read_cmd(int fd);
 
 #endif

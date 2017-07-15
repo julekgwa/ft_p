@@ -6,9 +6,9 @@ LIBFLAG = -Wall -Wextra -Werror
 
 OPTIONS = -c -I includes/ -I libft/includes/
 
-SRCSERVER = server.c read_file.c
+SRCSERVER = server.c
 
-SRCCLIENT = client.c read_file.c client_utils.c
+SRCCLIENT = client.c client_utils.c
 
 OBJSERVER = $(SRCSERVER:.c=.o)
 

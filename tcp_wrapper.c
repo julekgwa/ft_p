@@ -6,15 +6,15 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 08:56:37 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 09:21:27 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 13:38:46 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-int ft_socket(void)
+int		ft_socket(void)
 {
-	int socketfd;
+	int	socketfd;
 
 	if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR)
 	{
@@ -24,33 +24,33 @@ int ft_socket(void)
 	return (socketfd);
 }
 
-void ft_connect(int fd, char *port, char *server, t_env *envp)
+void	ft_connect(int fd, char *port, char *server, t_env *envp)
 {
-	SAI remote_server;
+	SAI	remote_server;
 
-	(void) envp;
+	(void)envp;
 	remote_server.sin_family = AF_INET;
 	remote_server.sin_port = htons(atoi(port));
 	remote_server.sin_addr.s_addr = inet_addr(server);
 	ft_bzero(&remote_server.sin_zero, 8);
-	if ((connect(fd, (SA * ) & remote_server, sizeof(SAI))) == ERROR)
+	if ((connect(fd, (SA *)&remote_server, sizeof(SAI))) == ERROR)
 	{
 		printf("connect: %s", "connection ERROR\n");
 		exit(-1);
 	}
 }
 
-void ft_bind(int fd, char *port)
+void	ft_bind(int fd, char *port)
 {
-	SAI server;
-	int len;
+	SAI	server;
+	int	len;
 
 	server.sin_family = AF_INET;
 	server.sin_port = htons(ft_atoi(port));
 	server.sin_addr.s_addr = INADDR_ANY;
 	ft_bzero(&server.sin_zero, 8);
 	len = sizeof(SAI);
-	if ((bind(fd, (SA * ) & server, len)) == ERROR)
+	if ((bind(fd, (SA *)&server, len)) == ERROR)
 	{
 		printf("Bind: %s", "bind ERROR");
 		exit(-1);
@@ -58,13 +58,13 @@ void ft_bind(int fd, char *port)
 	listen(fd, 5);
 }
 
-int ft_accept(int fd, SAI *client)
+int		ft_accept(int fd, SAI *client)
 {
-	int socketfd;
-	int len;
+	int	socketfd;
+	int	len;
 
 	len = sizeof(SAI);
-	if ((socketfd = accept(fd, (SA *) client, (socklen_t * ) & len)) == ERROR)
+	if ((socketfd = accept(fd, (SA *)client, (socklen_t *)&len)) == ERROR)
 	{
 		perror("accept");
 		exit(-1);

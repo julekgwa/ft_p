@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 10:14:33 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 13:26:22 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,15 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#define ERROR -1
-#define MAX_DATA 1024
+# define ERROR -1
+# define MAX_DATA 1024
 
-void handle_client(char *data, t_env *envp, t_stack *hist)
+void	handle_client(char *data, t_env *envp, t_stack *hist)
 {
-	int status;
-	pid_t pid;
-
-	if (data)
-	{
-		if ((pid = fork()) == 0)
-			ft_pro_cmd(data, envp, hist);
-		wait(&status);
-	}
+	ft_pro_cmd(data, envp, hist);
 }
 
-void ft_check_ser_args(int ac, char *prog)
+void	ft_check_ser_args(int ac, char *prog)
 {
 	if (ac < 2 || ac > 2)
 	{
@@ -48,7 +40,7 @@ void ft_check_ser_args(int ac, char *prog)
 	}
 }
 
-t_env *ft_welcome_msg(int port, char *ip, char **envp)
+t_env	*ft_welcome_msg(int port, char *ip, char **envp)
 {
 	printf("New client connected from port no %d and IP %s\n", port, ip);
 	return (copy_envp(4096, envp));
@@ -65,11 +57,11 @@ int ft_check_quit(int client_fd, char *cmd)
 	return (0);
 }
 
-void ft_handle_client_request(int client_fd, char **envp, SAI client)
+void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 {
-	t_env *envp_copy;
-	t_stack hist;
-	char *cmd;
+	t_env	*envp_copy;
+	t_stack	hist;
+	char	*cmd;
 
 	ft_create_stack(&hist, envp);
 	envp_copy = ft_welcome_msg(client.sin_port, inet_ntoa(client.sin_addr), envp);
@@ -86,13 +78,13 @@ void ft_handle_client_request(int client_fd, char **envp, SAI client)
 	}
 }
 
-int main(int ac, char **av, char **envp)
+int		main(int ac, char **av, char **envp)
 {
-	int socket_fd;
-	int client_fd;
-	SAI client;
-	pid_t pid2;
-	int stdout_copy;
+	int		socket_fd;
+	int		client_fd;
+	SAI		client;
+	pid_t	pid2;
+	int		stdout_copy;
 
 	stdout_copy = dup(1);
 	ft_check_ser_args(ac, av[0]);
@@ -108,5 +100,5 @@ int main(int ac, char **av, char **envp)
 		dup2(stdout_copy, 1);
 		printf("Client disconnected\n");
 	}
-	return 0;
+	return (0);
 }

@@ -6,14 +6,14 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 22:48:06 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 13:31:24 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_p.h"
 
-int	ft_upload_file(char *put, int fd)
+int		ft_upload_file(char *put, int fd)
 {
 	char	*cmd;
 	char	*content;
@@ -44,25 +44,25 @@ void	ft_save_file(char *file, char *orig)
 	write_file(file, orig + len);
 }
 
-int display_response(int fd)
+int		display_response(int fd)
 {
-    char *feedback;
-    char	**split;
+	char	*feedback;
+	char	**split;
 
-    feedback = read_cmd(fd);
-    split = SPLIT(feedback, ' ');
-    if (EQUAL(feedback, "done"))
-        return (1);
-    if (EQUAL(split[0], "fgetter"))
-    	ft_save_file(split[1], feedback);
-    else
-    	printf("%s\n", feedback);
-    return (0);
+	feedback = read_cmd(fd);
+	split = SPLIT(feedback, ' ');
+	if (EQUAL(feedback, "done"))
+		return (1);
+	if (EQUAL(split[0], "fgetter"))
+		ft_save_file(split[1], feedback);
+	else
+		printf("%s\n", feedback);
+	return (0);
 }
 
-int send_to_server(char *cmd, int server_fd)
+int		send_to_server(char *cmd, int server_fd)
 {
-    printf("%s\n", "Connected");
-    send(server_fd, cmd, strlen(cmd), 0);
-    return display_response(server_fd);
+	printf("%s\n", "Connected");
+	send(server_fd, cmd, strlen(cmd), 0);
+	return (display_response(server_fd));
 }

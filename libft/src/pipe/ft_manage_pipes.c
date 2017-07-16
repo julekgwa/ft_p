@@ -44,7 +44,6 @@ int		fork_pipes(int n[], char **cmd, char **envp, t_stack *hist)
 
 	in[0] = 0;
 	in[1] = n[1];
-	// in[2] = n[2];
 	while (hist->counter < n[0] - 1)
 	{
 		pipe(fd);

@@ -64,30 +64,30 @@ int		ft_is_execute(char *command)
 
 int     ft_execute(char *command, char *cmd, t_env *envp, t_stack *hist)
 {
-    // pid_t   pid;
-    // int     status;
+    pid_t   pid;
+    int     status;
     int     value;
 
     value = 0;
-    // if ((pid = fork()) < 0)
-    //     exit(1);
-    // else if (pid == 0)
-    // {
+    if ((pid = fork()) < 0)
+        exit(1);
+    else if (pid == 0)
+    {
         if (ft_is_pipe_or_redirect(cmd))
             ft_process_pipes(cmd, envp->list, hist);
         else
             ft_execute_cmd(command, SPLIT(cmd, ' '), envp->list);
-    //     exit(0);
-    // }
-    // else
-    // {
-    //     wait(&status);
-    //     if (WIFEXITED(status))
-    //     {
-    //         if (WEXITSTATUS(status) != 0)
-    //             value = -1;
-    //     }
-    // }
+        exit(0);
+    }
+    else
+    {
+        wait(&status);
+        if (WIFEXITED(status))
+        {
+            if (WEXITSTATUS(status) != 0)
+                value = -1;
+        }
+    }
     return (value);
 }
 

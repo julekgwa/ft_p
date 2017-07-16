@@ -6,20 +6,11 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:10:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 08:43:34 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 09:00:23 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "ft_p.h"
-#include <netinet/in.h>
-#include <errno.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <stdio.h>
-
-#define ERROR -1
 
 int ft_send_data(t_cmd *cmd, struct termios *term, t_stack *hist, int fd)
 {
@@ -67,34 +58,6 @@ void    ft_check_args(int ac, char *prog)
         printf("Insufficient number of arguments. \n");
         printf("Usage: ./%s <IP Address Of Server> <Port Number>\n", prog);
         exit(1);
-    }
-}
-
-int ft_socket(void)
-{
-    int socketfd;
-
-    if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) == ERROR)
-    {
-        printf("%s\n", "Socket ERROR");
-        exit(-1);
-    }
-    return (socketfd);
-}
-
-void    ft_connect(int fd, char *port, char *server, t_env *envp)
-{
-    SAI remote_server;
-
-    (void)envp;
-    remote_server.sin_family = AF_INET;
-    remote_server.sin_port = htons(atoi(port));
-    remote_server.sin_addr.s_addr = inet_addr(server);
-    ft_bzero(&remote_server.sin_zero, 8);
-    if ((connect(fd, (SA *) &remote_server, sizeof(SAI))) == ERROR)
-    {
-    printf("connect: %s", "connection ERROR\n");
-        exit(-1);
     }
 }
 

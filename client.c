@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:10:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 08:15:31 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 08:43:34 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,34 +82,36 @@ int ft_socket(void)
     return (socketfd);
 }
 
+void    ft_connect(int fd, char *port, char *server, t_env *envp)
+{
+    SAI remote_server;
+
+    (void)envp;
+    remote_server.sin_family = AF_INET;
+    remote_server.sin_port = htons(atoi(port));
+    remote_server.sin_addr.s_addr = inet_addr(server);
+    ft_bzero(&remote_server.sin_zero, 8);
+    if ((connect(fd, (SA *) &remote_server, sizeof(SAI))) == ERROR)
+    {
+    printf("connect: %s", "connection ERROR\n");
+        exit(-1);
+    }
+}
+
 int main(int ac, char **av, char **envp)
 {
     struct termios term;
     t_stack hist;
     t_cmd cmd;
     t_env *envp_copy;
-    struct sockaddr_in remote_server;
 
     ft_check_args(ac, av[0]);
     ft_create_stack(&hist, envp);
     envp_copy = copy_envp(4096, envp);
     ft_init_keyboard(&term, &ac, &av);
     signal(SIGINT, ft_ctrl_c_signal_handler);
-    (void) envp_copy;
-
     cmd.fd = ft_socket();
-
-    remote_server.sin_family = AF_INET;
-    remote_server.sin_port = htons(atoi(av[2]));
-    remote_server.sin_addr.s_addr = inet_addr(av[1]);
-    bzero(&remote_server.sin_zero, 8);
-
-    if ((connect(cmd.fd, (struct sockaddr *) &remote_server, sizeof(struct sockaddr_in))) == ERROR)
-    {
-        perror("connect");
-        exit(-1);
-    }
-    // cmd.fd = socket_fd;
+    ft_connect(cmd.fd, av[2], av[1], envp_copy);
     while (42)
     {
         prompt(&cmd, &hist);

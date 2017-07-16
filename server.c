@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 20:06:40 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 23:54:29 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,6 @@ void handle_client(char *data, t_env *envp, t_stack *hist, int client_fd)
     }
 }
 
-// char    *read_cmd(int fd)
-// {
-//     char    buff[MAX_DATA];
-//     char    *cmd;
-//     ssize_t retval;
-
-//     while (42)
-//     {
-//         retval = recv(fd, buff, MAX_DATA - 1, 0);
-//         if (retval)
-//         {
-//             buff[retval] = '\0';
-//             cmd = ft_strjoin(cmd, buff);
-//         }
-//         if (retval <= MAX_DATA)
-//             break;
-//     }
-//     return (cmd);
-// }
-
 int main(int ac, char **av, char **envp)
 {
     int socket_fd, len, client_fd;
@@ -69,7 +49,6 @@ int main(int ac, char **av, char **envp)
     t_env *envp_copy;
 
     ft_create_stack(&hist, envp);
-    envp_copy = copy_envp(4096, envp);
 
     if (ac < 2 || ac > 2) {
         printf("Usage: %s <Port number>\n", av[0]);
@@ -109,6 +88,7 @@ int main(int ac, char **av, char **envp)
             if (pid2 == 0) {
                 printf("New client connected from port no %d and IP %s\n", ntohs(client.sin_port),
                        inet_ntoa(client.sin_addr));
+                envp_copy = copy_envp(4096, envp);
                 close(1);
                 data_len = 1;
                 dup2(client_fd, 0);

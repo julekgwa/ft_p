@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 07:44:27 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/11 09:48:30 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/15 23:29:54 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	ft_modpwd(int f, char *oldpwd, t_env *envp)
 		free(current);
 	}
 	free(oldpwd);
+	printf("%s\n", "done");
 }
 
 void	ft_cd(char **directory, t_env *envp)

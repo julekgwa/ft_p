@@ -68,10 +68,10 @@ void	ft_environ_value(char *env, char **envp)
 	{
 		tmp = ft_get_env(env, envp);
 		if (tmp)
-			ft_putstr_char(QUOTES(tmp), ' ');
+			printf("%s\n", tmp);
 	}
 	else
-		ft_putstr_char(QUOTES(env), ' ');
+		printf("%s\n", QUOTES(env));
 }
 
 void	ft_echo(char *echo, char **envp)

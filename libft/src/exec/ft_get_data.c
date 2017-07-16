@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:09:59 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/12 19:41:46 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 18:35:49 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,33 +62,33 @@ int		ft_is_execute(char *command)
 	return (0);
 }
 
-int     ft_execute(char *command, char *cmd, t_env *envp, t_stack *hist)
+int		ft_execute(char *command, char *cmd, t_env *envp, t_stack *hist)
 {
-    pid_t   pid;
-    int     status;
-    int     value;
+	pid_t	pid;
+	int		status;
+	int		value;
 
-    value = 0;
-    if ((pid = fork()) < 0)
-        exit(1);
-    else if (pid == 0)
-    {
-        if (ft_is_pipe_or_redirect(cmd))
-            ft_process_pipes(cmd, envp->list, hist);
-        else
-            ft_execute_cmd(command, SPLIT(cmd, ' '), envp->list);
-        exit(0);
-    }
-    else
-    {
-        wait(&status);
-        if (WIFEXITED(status))
-        {
-            if (WEXITSTATUS(status) != 0)
-                value = -1;
-        }
-    }
-    return (value);
+	value = 0;
+	if ((pid = fork()) < 0)
+		exit(1);
+	else if (pid == 0)
+	{
+		if (ft_is_pipe_or_redirect(cmd))
+			ft_process_pipes(cmd, envp->list, hist);
+		else
+			ft_execute_cmd(command, SPLIT(cmd, ' '), envp->list);
+		exit(0);
+	}
+	else
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+		{
+			if (WEXITSTATUS(status) != 0)
+				value = -1;
+		}
+	}
+	return (value);
 }
 
 int		ft_array_len(char **arr)

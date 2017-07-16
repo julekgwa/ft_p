@@ -40,7 +40,7 @@ int		ft_execute_commands(char **cmd, char *line, t_env *envp, t_stack *hist)
     char *dir;
 
     if (ft_strequ(cmd[0], "cd"))
-        ft_cd(cmd, envp);
+        ft_handle_cd(cmd, envp, hist);
     else if (ft_strequ(cmd[0], "pwd"))
     {
         dir = ft_pwd();

@@ -55,6 +55,7 @@ int		ft_execute_cmd(char *com, char **cmd, char **envp)
 	ft_memset(av, 0, sizeof(char *) * BUFF_SIZE);
 	ft_rm_quotes_array(av, cmd);
 	exec = execve(com, &av[0], envp);
+	printf("%s\n", "done");
 	if (exec == -1 && !ft_is_executable(com))
 	{
 		ft_print_error(com, 1);
@@ -65,8 +66,6 @@ int		ft_execute_cmd(char *com, char **cmd, char **envp)
 		ft_print_error(com, 2);
 		exit(1);
 	}
-	else
-		printf("King is born\n");
 	return (exec);
 }
 

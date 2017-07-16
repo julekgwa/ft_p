@@ -47,6 +47,7 @@ typedef struct		s_stack
 	char			*list[4096];
 	char			*paste;
 	char			**envp;
+	char 			*home;
 	int				success;
 	int				ret;
 	int				counter;

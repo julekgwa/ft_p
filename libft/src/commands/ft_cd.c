@@ -86,7 +86,7 @@ void	ft_modpwd(int f, char *oldpwd, t_env *envp)
 	printf("%s\n", "done");
 }
 
-void	ft_cd(char **directory, t_env *envp)
+void	ft_cd(char **directory, t_env *envp, char *home)
 {
 	char	*dir;
 	char	*oldpwd;
@@ -96,7 +96,7 @@ void	ft_cd(char **directory, t_env *envp)
 	oldpwd = getcwd(NULL, 0);
 	dir = directory[1];
 	if (dir == NULL || (ft_strequ(dir, "~") && ft_strlen(dir) == 1))
-		dirflag = chdir(ft_get_env("$HOME", envp->list));
+		dirflag = chdir(home);
 	else if (ft_start_with(dir, '~'))
 		dirflag = ft_user_dir(dir, envp->list);
 	else if (ft_strequ(dir, "-"))

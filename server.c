@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 13:26:22 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/16 15:30:59 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-# define ERROR -1
-# define MAX_DATA 1024
+#define ERROR -1
+#define MAX_DATA 1024
 
 void	handle_client(char *data, t_env *envp, t_stack *hist)
 {
@@ -40,17 +40,13 @@ void	ft_check_ser_args(int ac, char *prog)
 	}
 }
 
-t_env	*ft_welcome_msg(int port, char *ip, char **envp)
+int		ft_check_quit(int client_fd, char *cmd)
 {
-	printf("New client connected from port no %d and IP %s\n", port, ip);
-	return (copy_envp(4096, envp));
-}
+	char	s[5];
 
-int ft_check_quit(int client_fd, char *cmd)
-{
+	ft_strcpy(s, "done");
 	if (EQUAL(cmd, "quit"))
 	{
-		char s[] = "done";
 		send(client_fd, s, strlen(s), 0);
 		return (1);
 	}
@@ -59,12 +55,13 @@ int ft_check_quit(int client_fd, char *cmd)
 
 void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 {
-	t_env	*envp_copy;
+	t_env	*copy;
 	t_stack	hist;
 	char	*cmd;
 
 	ft_create_stack(&hist, envp);
-	envp_copy = ft_welcome_msg(client.sin_port, inet_ntoa(client.sin_addr), envp);
+	copy = ft_welcome_msg(client.sin_port, inet_ntoa(client.sin_addr), envp);
+	hist.home = ft_pwd();
 	close(1);
 	dup2(client_fd, 0);
 	dup2(client_fd, 1);
@@ -73,8 +70,8 @@ void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 	{
 		cmd = read_cmd(client_fd);
 		if (ft_check_quit(client_fd, cmd))
-			break;
-		handle_client(cmd, envp_copy, &hist);
+			break ;
+		handle_client(cmd, copy, &hist);
 	}
 }
 

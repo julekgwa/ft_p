@@ -71,3 +71,9 @@ int		ft_accept(int fd, SAI *client)
 	}
 	return (socketfd);
 }
+
+t_env	*ft_welcome_msg(int port, char *ip, char **envp)
+{
+	printf("New client connected from port no %d and IP %s\n", port, ip);
+	return (copy_envp(4096, envp));
+}

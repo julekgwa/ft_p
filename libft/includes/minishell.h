@@ -51,7 +51,7 @@
 # define SEARCH ft_search_command
 # define SPLIT ft_strsplit
 
-void	ft_cd(char **dir, t_env *envp);
+void	ft_cd(char **dir, t_env *envp, char *home);
 char	*ft_pwd();
 void	ft_echo(char *av, char **envp);
 int		ft_end_with(char *str, char c);
@@ -210,5 +210,7 @@ int		ft_upload_file(char *put, int fd);
 void	ft_put_get_file(char **cmd, char *orig);
 char	*read_cmd(int fd);
 int		ft_file_exist(char *filename);
+void    ft_handle_cd(char **cmd, t_env *envp, t_stack *hist);
+void	ft_modpwd(int f, char *oldpwd, t_env *envp);
 
 #endif

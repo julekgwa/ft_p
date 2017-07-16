@@ -24,5 +24,6 @@ int		ft_socket(void);
 void	ft_connect(int fd, char *port, char *server, t_env *envp);
 void	ft_bind(int fd, char *port);
 int		ft_accept(int fd, SAI *client);
+t_env	*ft_welcome_msg(int port, char *ip, char **envp);
 
 #endif

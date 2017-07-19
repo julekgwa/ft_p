@@ -98,7 +98,7 @@ void	ft_man_search_replace(char **cmd, int *pos, t_stack hist)
 	ft_strcpy(*cmd, search_str);
 	if (ft_strequ(search.haystack, *cmd))
 	{
-		ft_putendl("\n21sh: substitution failed");
+		ft_putendl("\nft_p: substitution failed");
 		ft_memset(*cmd, 0, BUFF_SIZE);
 		ft_strcpy(*cmd, "");
 	}

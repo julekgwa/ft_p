@@ -33,7 +33,7 @@ void	ft_read_line(int fd, char *s)
 		ft_memset(line, 0, SIZE);
 	}
 	if (retval == 0)
-		ft_putendl("21sh: warning: here-document delimited by end-of-file");
+		ft_putendl("ft_p: warning: here-document delimited by end-of-file");
 	i = -1;
 	while (list[++i])
 		write(fd, list[i], ft_strlen(list[i]));

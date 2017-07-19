@@ -20,7 +20,7 @@ void	ft_export(char **cmd, t_env *envp)
 
 	if (cmd[1][0] == '=')
 	{
-		ft_putstr("21sh: export: `");
+		ft_putstr("ft_p: export: `");
 		ft_putstr(cmd[1]);
 		ft_putendl("': not a valid identifier");
 		return ;

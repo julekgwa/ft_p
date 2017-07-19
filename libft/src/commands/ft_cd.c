@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 07:44:27 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/15 23:29:54 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/19 21:27:06 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ void	ft_modpwd(int f, char *oldpwd, t_env *envp)
 		free(current);
 	}
 	free(oldpwd);
-	printf("%s\n", "done");
+	write(1, "SUCCESS", ft_strlen("SUCCESS"));
 }
 
-void	ft_cd(char **directory, t_env *envp, char *home)
+void	ft_cd(char **directory, t_env *envp)
 {
 	char	*dir;
 	char	*oldpwd;
@@ -96,7 +96,7 @@ void	ft_cd(char **directory, t_env *envp, char *home)
 	oldpwd = getcwd(NULL, 0);
 	dir = directory[1];
 	if (dir == NULL || (ft_strequ(dir, "~") && ft_strlen(dir) == 1))
-		dirflag = chdir(home);
+		dirflag = chdir(ft_get_env("$HOME", envp->list));
 	else if (ft_start_with(dir, '~'))
 		dirflag = ft_user_dir(dir, envp->list);
 	else if (ft_strequ(dir, "-"))

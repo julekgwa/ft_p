@@ -6,12 +6,11 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/19 22:20:25 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/19 22:20:42 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ft_p.h"
 
 int		ft_upload_file(char *put, int fd)
 {

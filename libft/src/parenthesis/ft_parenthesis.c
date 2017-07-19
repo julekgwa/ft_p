@@ -16,8 +16,8 @@ void	ft_check_eof(int read_value, t_cmd *cmd)
 {
 	if (read_value == 0)
 	{
-		ft_putendl("21sh: unexpected EOF while looking for matching `\"'");
-		ft_putendl("21sh: syntax error: unexpected end of file");
+		ft_putendl("ft_p: unexpected EOF while looking for matching `\"'");
+		ft_putendl("ft_p: syntax error: unexpected end of file");
 		cmd->get_line = "";
 		return ;
 	}

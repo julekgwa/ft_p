@@ -6,12 +6,10 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 14:23:22 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 14:24:17 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/19 22:28:24 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
 # define MAX_HASH 4096
 
 typedef struct		s_search
@@ -42,12 +40,11 @@ typedef struct		s_stack
 	int				count;
 	int				top;
 	t_search		*search;
-	t_hash			*hash[MAX_HASH];
+    t_hash     		*hash[MAX_HASH];
 	int				ctrl_r;
 	char			*list[4096];
 	char			*paste;
 	char			**envp;
-	char 			*home;
 	int				success;
 	int				ret;
 	int				counter;
@@ -58,6 +55,7 @@ typedef struct		s_comms
 	char			**user_comm;
 	char			*get_line;
 	int				fd;
+	int				local;
 }					t_cmd;
 
 typedef struct		s_env
@@ -69,5 +67,3 @@ typedef struct		s_env
 }					t_env;
 
 unsigned int		ft_hash_code(const char *key);
-
-#endif

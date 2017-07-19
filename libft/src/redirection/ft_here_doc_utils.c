@@ -72,7 +72,7 @@ void	ft_redirect_left_right(char **cmd)
 		pos = ft_get_here_doc_pos(cmd, ">>");
 	if (cmd[pos + 1] == NULL)
 	{
-		ft_putendl("21sh: syntax error near unexpected token `newline'");
+		ft_putendl("ft_p: syntax error near unexpected token `newline'");
 		return ;
 	}
 	filename = cmd[pos + 1];

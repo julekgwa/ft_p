@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 12:37:20 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 14:09:13 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/01/08 22:36:04 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,10 @@ int		ft_execute_cmd(char *com, char **cmd, char **envp)
 	ft_memset(av, 0, sizeof(char *) * BUFF_SIZE);
 	ft_rm_quotes_array(av, cmd);
 	exec = execve(com, &av[0], envp);
-	printf("%s\n", "done");
 	if (exec == -1 && !ft_is_executable(com))
-	{
 		ft_print_error(com, 1);
-		exit(1);
-	}
 	else if (exec == -1 && ft_is_dir(com))
-	{
 		ft_print_error(com, 2);
-		exit(1);
-	}
 	return (exec);
 }
 

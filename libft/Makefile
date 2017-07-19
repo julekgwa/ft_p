@@ -6,7 +6,7 @@
 #    By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 07:28:36 by julekgwa          #+#    #+#              #
-#    Updated: 2017/07/15 23:06:23 by julekgwa         ###   ########.fr        #
+#    Updated: 2017/07/19 22:19:45 by julekgwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRC = ./src/ft_memset.c ./src/ft_bzero.c ./src/ft_memcpy.c ./src/ft_memccpy.c ./
       ./src/auto/ft_auto_search.c ./src/auto/ft_auto_utils.c ./src/auto/ft_auto_misc.c \
       ./src/hash_table/ft_hash_table.c ./src/hash_table/ft_hash_table_utils.c \
       ./src/exec/ft_execute.c ./src/substitution/ft_sub.c ./src/auto/ft_format.c \
-      ./src/pipe/ft_pipes_utils.c ./src/servers/file_io.c ./src/servers/server_utils.c
+      ./src/pipe/ft_pipes_utils.c ./src/servers/file_io.c ./src/servers/server_utils.c \
+      ./src/servers/client_data.c ./src/servers/client_utils.c
 OBJECT = ft_memset.o ft_bzero.o ft_memcpy.o ft_memccpy.o ft_memmove.o \
       ft_memchr.o ft_memcmp.o ft_strlen.o ft_strnstr.o \
       ft_strdup.o ft_strcpy.o ft_strncpy.o ft_strcat.o ft_strncat.o \
@@ -70,7 +71,8 @@ OBJECT = ft_memset.o ft_bzero.o ft_memcpy.o ft_memccpy.o ft_memmove.o \
       ft_parenthesis_utils.o ft_here_doc_utils.o ft_export.o ft_logical_op.o \
       ft_bck_i_search.o ft_manage_hist.o ft_cut.o ft_auto_search.o ft_auto_utils.o \
       ft_auto_misc.o ft_hash_table.o ft_hash_table_utils.o ft_execute.o ft_sub.o \
-      ft_format.o ft_pipes_utils.o file_io.o server_utils.o
+      ft_format.o ft_pipes_utils.o file_io.o server_utils.o client_data.o \
+      client_utils.o
 FLAGS = -Wall -Wextra -Werror
 OPTIONS = -c -I ./includes/
 

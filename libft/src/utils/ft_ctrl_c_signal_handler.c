@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:23:04 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/19 22:31:05 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 12:59:47 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,25 @@ void	ft_print_error(char *cmd, int errorno)
 {
 	if (errorno == 3)
 	{
-		ft_putstr("ERROR: ");
-		ft_putstr("no such file or directory: ");
-		ft_putendl(cmd);
+		printf("%s","ERROR: ");
+		printf("%s","no such file or directory: ");
+		printf("%s\n", cmd);
 		return ;
 	}
 	else if (errorno == 5)
 	{
-		ft_putstr("\nft_p: event not found: ");
-		ft_putendl(cmd);
+		printf("%s","\nft_p: event not found: ");
+		printf("%s\n", cmd);
 		return ;
 	}
-	ft_putstr("ft_p: ");
-	ft_putstr(cmd);
+	printf("%s","ft_p: ");
+	printf("%s",cmd);
 	if (errorno == 1)
-		ft_putstr(": Permission denied\n");
+		printf("%s",": Permission denied\n");
 	else if (errorno == 0)
-		ft_putstr(": command not found...\n");
+		printf("%s",": command not found...\n");
 	else if (errorno == 2)
-		ft_putstr(": Is a directory\n");
+		printf("%s",": Is a directory\n");
 }
 
 void	prompt(t_cmd *cmd, t_stack *hist)

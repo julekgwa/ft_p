@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:26:31 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/19 23:17:37 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 13:20:23 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int		ft_execute_commands(char **cmd, char *line, t_env *envp, t_stack *hist)
 		ft_set_envir(envp, line, hist);
 	else if (ft_strequ(cmd[0], "unsetenv") || ft_strequ(cmd[0], "unset"))
 		ft_unsetting_env(line, envp, hist);
-	else if (ft_strequ(cmd[0], "history"))
+	else if (ft_strequ(cmd[0], "history") || ft_strequ(cmd[0], "lhistory"))
 		ft_display_hist(hist, cmd, 0);
-	else if (ft_strequ(cmd[0], "clear"))
+	else if (ft_strequ(cmd[0], "clear") || ft_strequ(cmd[0], "lclear"))
 		tputs(tgetstr("cl", NULL), 1, ft_myputchar);
 	return (0);
 }
@@ -115,6 +115,8 @@ int check_builtin(char *cmd)
     if (EQUAL(cmd, "export") || EQUAL(cmd, "unset") || EQUAL(cmd, "lcd"))
         return (1);
     if (EQUAL(cmd, "put") || EQUAL(cmd, "get") || EQUAL(cmd, "lpwd"))
+        return (1);
+    if (EQUAL(cmd, "lhistory") || EQUAL(cmd, "lclear"))
         return (1);
     return (0);
 }

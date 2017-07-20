@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/19 22:20:25 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 13:04:00 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_upload_file(char *put, int fd)
 	filename = split_put[1];
 	if (!ft_file_exist(filename))
 	{
-		printf("21sh: %s %s\n", "no such file or directory:", filename);
+		printf("ft_p: %s %s\n", "no such file or directory:", filename);
 		return (0);
 	}
 	content = read_file(filename);
@@ -56,13 +56,12 @@ int		display_response(int fd)
 	if (EQUAL(split[0], "fgetter"))
 		ft_save_file(split[1], feedback);
 	else
-		printf("%s\n", feedback);
+		ft_putendl(feedback);
 	return (0);
 }
 
 int		send_to_server(char *cmd, int server_fd)
 {
-	printf("%s\n", "Connected");
 	send(server_fd, cmd, strlen(cmd), 0);
 	return (display_response(server_fd));
 }

@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/19 22:20:42 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 12:45:51 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int		display_response(int fd)
 
 int		send_to_server(char *cmd, int server_fd)
 {
-	printf("%s\n", "Connected");
 	send(server_fd, cmd, strlen(cmd), 0);
 	return (display_response(server_fd));
 }

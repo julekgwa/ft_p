@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 10:35:05 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 14:47:41 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/01/01 15:33:28 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-typedef struct		s_token
+typedef struct      token
 {
-	const char		*top;
-	const char		*end;
-}					t_token;
+    const char      *top;
+    const char      *end;
+}                   t_token ;
 
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
@@ -89,5 +89,5 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				*ft_realloc(void *ptr, size_t len);
-int					ft_lstsize(t_list *begin_list);
+int                 ft_lstsize(t_list *begin_list);
 #endif

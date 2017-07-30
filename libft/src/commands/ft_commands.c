@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 07:45:09 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 13:56:32 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/19 22:08:31 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,31 @@ void	free_cmd(t_cmd *cmd)
 		free_cmd(cmd);
 }
 
-int		ft_pro_cmd(char *cmd, t_env *envp, t_stack *hist)
+int		ft_pro_cmd(t_cmd *cmd, t_env *envp, struct termios *t, t_stack *hist)
 {
 	char	*tmp;
-	char	**split;
 
-	tmp = ft_strdup(cmd);
+	tmp = ft_strdup(cmd->get_line);
 	hist->counter = -1;
-	if (ft_strncmp(cmd, "put", 3) != 0)
-		ft_str_substitution(&cmd, envp->list);
-	if ((split = ft_strsplit(cmd, ' ')) != NULL)
+	ft_str_substitution(&cmd->get_line, envp->list);
+	if ((cmd->user_comm = ft_strsplit(cmd->get_line, ' ')) != NULL)
 	{
+		if (ft_strequ(cmd->user_comm[0], "quit"))
+		{
+			send(cmd->fd, "quit", ft_strlen("quit"), 0);
+			free_cmd(cmd);
+			ft_free_hash_table(hist->hash);
+			ft_close_keyboard(t);
+			exit(0);
+		}
 		ft_push(hist, tmp);
-		if (ft_is_logical(cmd) && !EQUAL(split[0], "put"))
-			ft_log_op(cmd, envp, hist);
+		ft_term_off(t);
+		if (ft_is_logical(cmd->get_line))
+			ft_log_op(cmd, envp, t, hist);
 		else
 			hist->counter = ft_run_commands(cmd, envp, hist);
+		ft_term_on(t);
 	}
-	freecopy(split);
+	freecopy(cmd->user_comm);
 	return (hist->counter);
 }

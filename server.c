@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 15:30:59 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 12:50:07 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,45 @@
 #define ERROR -1
 #define MAX_DATA 1024
 
+int		ft_search_ftp_cmd(char *command)
+{
+	static char	*cmd = "pwd cd ls put get";
+	char		**comm_split;
+	int			i;
+
+	i = 0;
+	comm_split = ft_strsplit(cmd, ' ');
+	while (comm_split[i])
+	{
+		if (ft_strcmp(comm_split[i], command) == 0)
+		{
+			freecopy(comm_split);
+			return (1);
+		}
+		i++;
+	}
+	freecopy(comm_split);
+	return (0);
+}
+
 void	handle_client(char *data, t_env *envp, t_stack *hist)
 {
-	ft_pro_cmd(data, envp, hist);
+	struct termios	term;
+	t_cmd			cmd;
+	char 			**com;
+
+	com = SPLIT(data, ' ');
+	if (!ft_search_ftp_cmd(com[0]))
+	{
+		ft_print_error(com[0], 0);
+		freecopy(com);
+		return ;
+	}
+	cmd.get_line = (char *)malloc(sizeof(char) * strlen(data));
+	cmd.local = 1;
+	ft_strcpy(cmd.get_line, data);
+	ft_pro_cmd(&cmd, envp, &term, hist);
+	freecopy(com);
 }
 
 void	ft_check_ser_args(int ac, char *prog)
@@ -44,9 +80,9 @@ int		ft_check_quit(int client_fd, char *cmd)
 {
 	char	s[5];
 
-	ft_strcpy(s, "done");
 	if (EQUAL(cmd, "quit"))
 	{
+		ft_strcpy(s, "quit");
 		send(client_fd, s, strlen(s), 0);
 		return (1);
 	}
@@ -61,7 +97,7 @@ void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 
 	ft_create_stack(&hist, envp);
 	copy = ft_welcome_msg(client.sin_port, inet_ntoa(client.sin_addr), envp);
-	hist.home = ft_pwd();
+	// hist.home = ft_pwd();
 	close(1);
 	dup2(client_fd, 0);
 	dup2(client_fd, 1);

@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 15:30:35 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 18:32:29 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/19 20:57:01 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_get_file(char *file)
 
 	if (!ft_file_exist(file))
 	{
-		printf("21sh: %s %s\n", "no such file or directory:", file);
+		printf("ft_p: %s %s\n", "no such file or directory:", file);
 		return ;
 	}
 	content = read_file(file);
@@ -76,24 +76,24 @@ char	*read_cmd(int fd)
 	return (cmd);
 }
 
-void	ft_handle_cd(char **cmd, t_env *envp, t_stack *hist)
-{
-	char	*dir;
-	char	*oldpwd;
-	int		dirflag;
+// void	ft_handle_cd(char **cmd, t_env *envp, t_stack *hist)
+// {
+// 	char	*dir;
+// 	char	*oldpwd;
+// 	int		dirflag;
 
-	if (cmd[1] == NULL)
-	{
-		oldpwd = getcwd(NULL, 0);
-		dirflag = chdir(hist->home);
-		ft_modpwd(dirflag, oldpwd, envp);
-		return ;
-	}
-	dir = ft_pwd();
-	if (!(EQUAL(dir, hist->home) == 1 && EQUAL(cmd[1], "..") == 1))
-		ft_cd(cmd, envp, hist->home);
-	else
-	{
-		printf("%s", "ft_p: Cannot go any lower than server's Home directory");
-	}
-}
+// 	if (cmd[1] == NULL)
+// 	{
+// 		oldpwd = getcwd(NULL, 0);
+// 		dirflag = chdir(hist->home);
+// 		ft_modpwd(dirflag, oldpwd, envp);
+// 		return ;
+// 	}
+// 	dir = ft_pwd();
+// 	if (!(EQUAL(dir, hist->home) == 1 && EQUAL(cmd[1], "..") == 1))
+// 		ft_cd(cmd, envp, hist->home);
+// 	else
+// 	{
+// 		printf("%s", "ft_p: Cannot go any lower than server's Home directory");
+// 	}
+// }

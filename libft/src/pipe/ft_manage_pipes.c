@@ -38,7 +38,7 @@ void	ft_execute_child_proc(int in[], int out, char **cmd, char **envp)
 
 int		fork_pipes(int n[], char **cmd, char **envp, t_stack *hist)
 {
-	int		in[3];
+	int		in[2];
 	int		fd[2];
 	char	**cmd_s;
 

@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:09:59 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 18:35:49 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 13:15:04 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,16 @@ char	*ft_build_exec(char **split, t_stack *hist)
 	char			*str;
 	t_hash			*tmp;
 
-	code = ft_hash_code(QUOTES(split[0]));
-	tmp = ft_search(hist->hash[code], split[0]);
+	if (ft_start_with(split[0], 'l') && !EQUAL(split[0], "ls"))
+	{
+		code = ft_hash_code(QUOTES(split[0] + 1));
+		tmp = ft_search(hist->hash[code], split[0] + 1);
+	}
+	else
+	{
+		code = ft_hash_code(QUOTES(split[0]));
+		tmp = ft_search(hist->hash[code], split[0]);
+	}
 	if (code > MAX_HASH || !tmp)
 		return (NULL);
 	str = tmp->value;
@@ -62,7 +70,7 @@ int		ft_is_execute(char *command)
 	return (0);
 }
 
-int		ft_execute(char *command, char *cmd, t_env *envp, t_stack *hist)
+int		ft_execute(char *command, t_cmd *cmd, char **envp, t_stack *hist)
 {
 	pid_t	pid;
 	int		status;
@@ -73,10 +81,10 @@ int		ft_execute(char *command, char *cmd, t_env *envp, t_stack *hist)
 		exit(1);
 	else if (pid == 0)
 	{
-		if (ft_is_pipe_or_redirect(cmd))
-			ft_process_pipes(cmd, envp->list, hist);
+		if (ft_is_pipe_or_redirect(cmd->get_line))
+			ft_process_pipes(cmd->get_line, envp, hist);
 		else
-			ft_execute_cmd(command, SPLIT(cmd, ' '), envp->list);
+			ft_execute_cmd(command, cmd->user_comm, envp);
 		exit(0);
 	}
 	else

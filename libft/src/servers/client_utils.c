@@ -6,12 +6,11 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/20 13:04:00 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/20 12:45:51 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ft_p.h"
 
 int		ft_upload_file(char *put, int fd)
 {
@@ -24,7 +23,7 @@ int		ft_upload_file(char *put, int fd)
 	filename = split_put[1];
 	if (!ft_file_exist(filename))
 	{
-		printf("ft_p: %s %s\n", "no such file or directory:", filename);
+		printf("21sh: %s %s\n", "no such file or directory:", filename);
 		return (0);
 	}
 	content = read_file(filename);
@@ -56,7 +55,7 @@ int		display_response(int fd)
 	if (EQUAL(split[0], "fgetter"))
 		ft_save_file(split[1], feedback);
 	else
-		ft_putendl(feedback);
+		printf("%s\n", feedback);
 	return (0);
 }
 

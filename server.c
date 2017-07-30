@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/20 12:50:07 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/31 01:42:44 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 int		ft_search_ftp_cmd(char *command)
 {
-	static char	*cmd = "pwd cd ls put get";
+	static char	*cmd = "pwd cd ls put get echo setenv env";
 	char		**comm_split;
 	int			i;
 
@@ -94,10 +94,12 @@ void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 	t_env	*copy;
 	t_stack	hist;
 	char	*cmd;
+	char 	*home;
 
 	ft_create_stack(&hist, envp);
 	copy = ft_welcome_msg(client.sin_port, inet_ntoa(client.sin_addr), envp);
-	// hist.home = ft_pwd();
+	home = ft_strjoin("setenv TEST ", ft_pwd());
+	ft_set_envir(copy, home, &hist);
 	close(1);
 	dup2(client_fd, 0);
 	dup2(client_fd, 1);

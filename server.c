@@ -28,7 +28,7 @@
 
 int		ft_search_ftp_cmd(char *command)
 {
-	static char	*cmd = "pwd cd ls put get echo setenv env";
+	static char	*cmd = "pwd cd ls put get";
 	char		**comm_split;
 	int			i;
 

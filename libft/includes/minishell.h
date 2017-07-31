@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:27:36 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/19 22:18:45 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/07/31 22:56:33 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,5 +212,6 @@ void    ft_handle_cd(char **cmd, t_env *envp, t_stack *hist);
 void	ft_modpwd(int f, char *oldpwd, t_env *envp);
 int		ft_send_data(t_cmd *cmd, int fd);
 int		send_to_server(char *cmd, int server_fd);
+int 	ft_is_local(char *cmd);
 
 #endif

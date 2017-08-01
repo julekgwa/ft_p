@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/20 13:04:00 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/08/01 23:40:24 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,4 @@ void	ft_save_file(char *file, char *orig)
 
 	len = ft_strlen(file) + 9;
 	write_file(file, orig + len);
-}
-
-int		display_response(int fd)
-{
-	char	*feedback;
-	char	**split;
-
-	feedback = read_cmd(fd);
-	split = SPLIT(feedback, ' ');
-	if (EQUAL(feedback, "quit"))
-		return (1);
-	if (EQUAL(split[0], "fgetter"))
-		ft_save_file(split[1], feedback);
-	else
-		ft_putendl(feedback);
-	return (0);
-}
-
-int		send_to_server(char *cmd, int server_fd)
-{
-	send(server_fd, cmd, strlen(cmd), 0);
-	return (display_response(server_fd));
 }

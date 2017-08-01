@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/31 23:19:39 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/08/02 00:25:15 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 	ft_create_stack(&hist, envp);
 	copy = ft_welcome_msg(client.sin_port, inet_ntoa(client.sin_addr), envp);
 	home = ft_strjoin("setenv HOME ", ft_pwd());
+	ft_set_envir(copy, home, &hist);
+	ft_memset(&home, 0, ft_strlen(home));
+	home = ft_strjoin("setenv OLDPWD ", ft_pwd());
 	ft_set_envir(copy, home, &hist);
 	close(1);
 	dup2(client_fd, 0);

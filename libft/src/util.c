@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:26:31 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:42:13 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 17:40:54 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		ft_execute_commands(char **cmd, char *line, t_env *envp, t_stack *hist)
 	else if (ft_strequ(cmd[0], "pwd") || ft_strequ(cmd[0], "lpwd"))
 	{
 		dir = ft_pwd();
-		printf("%s", dir);
+		printf("%s\n", dir);
 		free(dir);
 	}
 	else if (EQUAL(cmd[0], "get") || EQUAL(cmd[0], "put"))

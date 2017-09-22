@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:46:06 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 18:50:30 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		ft_upload_file(char *put, int fd)
 	cmd = ft_strjoin(cmd, ft_itoa(size));
 	cmd = ft_strjoin(cmd, " ");
 	cmd = ft_strjoin(cmd, content);
-	send_to_server(cmd, fd);
+	send(fd, cmd, strlen(cmd), 0);
 	return (2);
 }
 
@@ -58,12 +58,19 @@ int		display_response(int fd)
 	if (EQUAL(split[0], "fgetter"))
 		ft_save_file(split[1], feedback, split[2]);
 	else
-		printf("%s\n", feedback);
+		printf("%s", feedback);
 	return (0);
 }
 
 int		send_to_server(char *cmd, int server_fd)
 {
-	send(server_fd, cmd, strlen(cmd), 0);
+	char	**split;
+
+	split = SPLIT(cmd, ' ');
+	if (EQUAL(split[0], "put"))
+		ft_upload_file(cmd, server_fd);
+	else
+		send(server_fd, cmd, strlen(cmd), 0);
+	freecopy(split);
 	return (display_response(server_fd));
 }

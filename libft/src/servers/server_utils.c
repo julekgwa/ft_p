@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 15:30:35 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:52:44 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 19:06:34 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,21 @@ void	ft_put_get_file(char **cmd, char *orig)
 {
 	char	*file;
 	int		len;
+	char	*size;
 
 	file = cmd[1];
-	len = ft_strlen(file) + 5;
-	if (EQUAL(cmd[0], "put")){
-		// write_file(file, orig + len, ft_atoi(cmd[2]));
-		printf("%s %d %s\n", "PUT", len, orig);
+	if (EQUAL(cmd[0], "put"))
+	{
+		size = cmd[2];
+		len = ft_strlen(file) + 6 + ft_strlen(size);
+		write_file(file, orig + len, ft_atoi(size));
 	}
 	else if (EQUAL(cmd[0], "get"))
 	{
 		ft_get_file(file);
 		return ;
 	}
-	printf("%s\n", "done");
+	printf("%s\n", "SUCCESS");
 }
 
 char	*read_cmd(int fd)

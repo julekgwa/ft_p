@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:26:31 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:31:18 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 16:42:13 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		ft_execute_commands(char **cmd, char *line, t_env *envp, t_stack *hist)
 		free(dir);
 	}
 	else if (EQUAL(cmd[0], "get") || EQUAL(cmd[0], "put"))
-		ft_process_get_put(cmd, line);
+		ft_put_get_file(cmd, line);
 	else if (ft_strequ(cmd[0], "export"))
 		ft_export(cmd, envp);
 	else if (ft_strequ(cmd[0], "echo"))

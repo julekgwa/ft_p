@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 15:32:19 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:36:10 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 16:44:49 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,4 @@ void write_file(char *file, char *content, int size)
 	if (fd)
 		write(fd, content, size);
 	close(fd);
-}
-
-void	ft_process_get_put(char **cmd, char *line)
-{
-	if (EQUAL(cmd[0], "get"))
-		ft_get_file(cmd[1]);
-	else if (EQUAL(cmd[0], "put"))
-		printf("%s %s\n", "PUT", line);
 }

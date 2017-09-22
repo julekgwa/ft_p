@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:34:21 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 16:46:06 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_save_file(char *file, char *orig, char *size)
 {
 	int	len;
 
-	len = ft_strlen(file) + 9;
+	len = ft_strlen(file) + 10 + ft_strlen(size);
 	write_file(file, orig + len, ft_atoi(size));
 }
 

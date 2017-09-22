@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 15:30:35 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/08/01 23:59:04 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 16:14:33 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,18 @@ void	ft_get_file(char *file)
 {
 	char	*content;
 	char	*cmd;
+	int		size;
 
 	if (!ft_file_exist(file))
 	{
 		printf("ft_p: %s %s\n", "no such file or directory:", file);
 		return ;
 	}
-	content = read_file(file);
+	content = read_file(file, &size);
 	cmd = ft_strjoin("fgetter", " ");
 	cmd = ft_strjoin(cmd, file);
+	cmd = ft_strjoin(cmd, " ");
+	cmd = ft_strjoin(cmd, ft_itoa(size));
 	cmd = ft_strjoin(cmd, " ");
 	cmd = ft_strjoin(cmd, content);
 	printf("%s\n", cmd);
@@ -46,7 +49,7 @@ void	ft_put_get_file(char **cmd, char *orig)
 	file = cmd[1];
 	len = ft_strlen(file) + 5;
 	if (EQUAL(cmd[0], "put"))
-		write_file(file, orig + len);
+		write_file(file, orig + len, ft_atoi(cmd[2]));
 	else if (EQUAL(cmd[0], "get"))
 	{
 		ft_get_file(file);

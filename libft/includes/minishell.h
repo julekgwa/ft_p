@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:27:36 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/31 22:56:33 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/22 16:30:41 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ void    ft_rm_newline(char *cmd);
 int     ft_handle_ctrl_c(int in_c);
 int     ft_set_cmd_to_null(char **cmd, int *pos);
 int		check_builtin(char *cmd);
-char	*read_file(const char *filename);
-void	write_file(char *file, char *content);
+char	*read_file(const char *filename, int *size);
+void	write_file(char *file, char *content, int size);
 int		ft_check_put_get(char *cmd);
 int		ft_upload_file(char *put, int fd);
 void	ft_put_get_file(char **cmd, char *orig);
@@ -213,5 +213,6 @@ void	ft_modpwd(int f, char *oldpwd, t_env *envp);
 int		ft_send_data(t_cmd *cmd, int fd);
 int		send_to_server(char *cmd, int server_fd);
 int 	ft_is_local(char *cmd);
+void	ft_process_get_put(char **cmd, char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 15:30:35 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 19:06:34 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/24 04:04:10 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int		ft_file_exist(char *filename)
 	return (stat(filename, &buffer) == 0);
 }
 
-void	ft_get_file(char *file)
+void	ft_get_file(char *file, int client_fd)
 {
 	char	*content;
 	char	*cmd;
+	char	*feedback;
 	int		size;
 
 	if (!ft_file_exist(file))
@@ -36,27 +37,33 @@ void	ft_get_file(char *file)
 	cmd = ft_strjoin(cmd, file);
 	cmd = ft_strjoin(cmd, " ");
 	cmd = ft_strjoin(cmd, ft_itoa(size));
-	cmd = ft_strjoin(cmd, " ");
-	cmd = ft_strjoin(cmd, content);
-	printf("%s\n", cmd);
+	send(client_fd, cmd, strlen(cmd), 0);
+	feedback = (char *)malloc(sizeof(char) * size);
+	recv(client_fd, feedback, size, 0);
+	send(client_fd, content, size, 0);
 }
 
-void	ft_put_get_file(char **cmd, char *orig)
+void	ft_put_get_file(char **cmd, int fd)
 {
 	char	*file;
-	int		len;
+	char	*feedback;
 	char	*size;
 
 	file = cmd[1];
 	if (EQUAL(cmd[0], "put"))
 	{
 		size = cmd[2];
-		len = ft_strlen(file) + 6 + ft_strlen(size);
-		write_file(file, orig + len, ft_atoi(size));
+		send(fd, "OK", strlen("OK"), 0);
+		feedback = (char *)malloc(sizeof(char) * ft_atoi(size));
+		recv(fd, feedback, ft_atoi(size), 0);
+		if (!EQUAL(feedback, "ERROR"))
+			write_file(file, feedback, ft_atoi(size));
+		else
+			printf("%s\n", "ERROR");
 	}
 	else if (EQUAL(cmd[0], "get"))
 	{
-		ft_get_file(file);
+		ft_get_file(file, fd);
 		return ;
 	}
 	printf("%s\n", "SUCCESS");
@@ -83,24 +90,17 @@ char	*read_cmd(int fd)
 	return (cmd);
 }
 
-// void	ft_handle_cd(char **cmd, t_env *envp, t_stack *hist)
-// {
-// 	char	*dir;
-// 	char	*oldpwd;
-// 	int		dirflag;
+void	ft_handle_cd(char **cmd, t_env *envp)
+{
+	char	*home;
+	char	*pwd;
 
-// 	if (cmd[1] == NULL)
-// 	{
-// 		oldpwd = getcwd(NULL, 0);
-// 		dirflag = chdir(hist->home);
-// 		ft_modpwd(dirflag, oldpwd, envp);
-// 		return ;
-// 	}
-// 	dir = ft_pwd();
-// 	if (!(EQUAL(dir, hist->home) == 1 && EQUAL(cmd[1], "..") == 1))
-// 		ft_cd(cmd, envp, hist->home);
-// 	else
-// 	{
-// 		printf("%s", "ft_p: Cannot go any lower than server's Home directory");
-// 	}
-// }
+	home = ft_get_env("$HOME", envp->list);
+	pwd = ft_pwd();
+	if (LENGTH(cmd) == 1)
+		ft_cd(cmd, envp);
+	else if (EQUAL(home, pwd) && ft_strncmp(cmd[1], "..", 2) == 0)
+		printf("ft_p: Cannot go any lower than server's Home directory\n");
+	else
+		ft_cd(cmd, envp);
+}

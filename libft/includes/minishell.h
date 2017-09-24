@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 17:27:36 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 16:30:41 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/24 03:39:42 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,10 +205,10 @@ char	*read_file(const char *filename, int *size);
 void	write_file(char *file, char *content, int size);
 int		ft_check_put_get(char *cmd);
 int		ft_upload_file(char *put, int fd);
-void	ft_put_get_file(char **cmd, char *orig);
+void	ft_put_get_file(char **cmd, int fd);
 char	*read_cmd(int fd);
 int		ft_file_exist(char *filename);
-void    ft_handle_cd(char **cmd, t_env *envp, t_stack *hist);
+void    ft_handle_cd(char **dir, t_env *envp);
 void	ft_modpwd(int f, char *oldpwd, t_env *envp);
 int		ft_send_data(t_cmd *cmd, int fd);
 int		send_to_server(char *cmd, int server_fd);

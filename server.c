@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 10:09:07 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/08/02 00:25:15 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/24 02:09:03 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		ft_search_ftp_cmd(char *command)
 	return (0);
 }
 
-void	handle_client(char *data, t_env *envp, t_stack *hist)
+void	handle_client(char *data, t_env *envp, t_stack *hist, int client_fd)
 {
 	struct termios	term;
 	t_cmd			cmd;
@@ -63,7 +63,10 @@ void	handle_client(char *data, t_env *envp, t_stack *hist)
 	cmd.get_line = (char *)malloc(sizeof(char) * strlen(data));
 	cmd.local = 1;
 	ft_strcpy(cmd.get_line, data);
-	ft_pro_cmd(&cmd, envp, &term, hist);
+	if (EQUAL(com[0], "put") || EQUAL(com[0], "get"))
+		ft_put_get_file(com, client_fd);
+	else	
+		ft_pro_cmd(&cmd, envp, &term, hist);
 	freecopy(com);
 }
 
@@ -112,7 +115,7 @@ void	ft_handle_client_request(int client_fd, char **envp, SAI client)
 		cmd = read_cmd(client_fd);
 		if (ft_check_quit(client_fd, cmd))
 			break ;
-		handle_client(cmd, copy, &hist);
+		handle_client(cmd, copy, &hist, client_fd);
 	}
 }
 

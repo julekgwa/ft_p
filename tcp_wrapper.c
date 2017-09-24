@@ -6,11 +6,12 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 08:56:37 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/07/16 13:38:46 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/24 05:32:02 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+#include <netdb.h>
 
 int		ft_socket(void)
 {
@@ -26,12 +27,16 @@ int		ft_socket(void)
 
 void	ft_connect(int fd, char *port, char *server, t_env *envp)
 {
-	SAI	remote_server;
+	SAI				remote_server;
+	struct hostent	*host;
+	struct in_addr **addr_list;
 
 	(void)envp;
+	host = gethostbyname(server);
 	remote_server.sin_family = AF_INET;
 	remote_server.sin_port = htons(atoi(port));
-	remote_server.sin_addr.s_addr = inet_addr(server);
+	addr_list = (struct in_addr **)host->h_addr_list;
+	remote_server.sin_addr.s_addr = inet_addr(inet_ntoa(*addr_list[0]));
 	ft_bzero(&remote_server.sin_zero, 8);
 	if ((connect(fd, (SA *)&remote_server, sizeof(SAI))) == ERROR)
 	{

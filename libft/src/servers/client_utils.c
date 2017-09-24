@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/22 18:50:30 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/24 02:51:50 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,29 @@ int		ft_upload_file(char *put, int fd)
 	cmd = ft_strjoin(cmd, filename);
 	cmd = ft_strjoin(cmd, " ");
 	cmd = ft_strjoin(cmd, ft_itoa(size));
-	cmd = ft_strjoin(cmd, " ");
-	cmd = ft_strjoin(cmd, content);
 	send(fd, cmd, strlen(cmd), 0);
+	read_cmd(fd);
+	if (!content)
+		send(fd, "ERROR", strlen("ERROR"), 0);
+	else
+		send(fd, content, size, 0);
 	return (2);
 }
 
-void	ft_save_file(char *file, char *orig, char *size)
+void	ft_save_file(char *file, char *size, int server_fd)
 {
-	int	len;
+	char	*feedback;
 
-	len = ft_strlen(file) + 10 + ft_strlen(size);
-	write_file(file, orig + len, ft_atoi(size));
+	feedback = (char *)malloc(sizeof(char) * ft_atoi(size));
+	send(server_fd, "OK", strlen("OK"), 0);
+	recv(server_fd, feedback, ft_atoi(size), 0);
+	if (feedback)
+	{
+		write_file(file, feedback, ft_atoi(size));
+		printf("%s\n", "SUCCESS");
+	}
+	else
+		printf("%s\n", "ERROR");
 }
 
 int		display_response(int fd)
@@ -56,7 +67,7 @@ int		display_response(int fd)
 	if (EQUAL(feedback, "quit"))
 		return (1);
 	if (EQUAL(split[0], "fgetter"))
-		ft_save_file(split[1], feedback, split[2]);
+		ft_save_file(split[1], split[2], fd);
 	else
 		printf("%s", feedback);
 	return (0);

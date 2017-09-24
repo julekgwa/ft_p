@@ -6,7 +6,7 @@
 /*   By: julekgwa <julekgwa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 13:37:25 by julekgwa          #+#    #+#             */
-/*   Updated: 2017/09/24 02:51:50 by julekgwa         ###   ########.fr       */
+/*   Updated: 2017/09/24 13:31:06 by julekgwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ int		display_response(int fd)
 	if (EQUAL(split[0], "fgetter"))
 		ft_save_file(split[1], split[2], fd);
 	else
-		printf("%s", feedback);
+	{
+		if (feedback[strlen(feedback) - 1] == '\n')
+			feedback[strlen(feedback) - 1] = '\0';
+		printf("%s\n", feedback);
+	}
 	return (0);
 }
 
